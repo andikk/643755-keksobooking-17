@@ -1,6 +1,5 @@
 'use strict';
-var OFFER_TYPE_NUMBER_START = 0;
-var OFFER_TYPE_NUMBER_END = 3;
+
 var LOCATION_X_NUMBER_START = 1;
 var PIN_HALF_WIDTH = 25;
 var PIN_HEIGHT = 70;
@@ -29,7 +28,7 @@ var fillAnnouncements = function () {
       },
 
       'offer': {
-        'type': types[getRandomInt(OFFER_TYPE_NUMBER_START, OFFER_TYPE_NUMBER_END)],
+        'type': types[getRandomInt(0, types.length - 1)],
       },
 
       'location': {
