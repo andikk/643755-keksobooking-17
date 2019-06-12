@@ -28,7 +28,7 @@ var fillAnnouncements = function () {
       },
 
       'offer': {
-        'type': types[getRandomInt(0, types.length - 1)],
+        'type': types[getRandomInt(0, types.length)],
       },
 
       'location': {
