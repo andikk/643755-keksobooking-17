@@ -1,5 +1,6 @@
 'use strict';
 
+var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var LOCATION_X_NUMBER_START = 1;
 var PIN_HALF_WIDTH = 25;
 var PIN_HEIGHT = 70;
@@ -17,9 +18,7 @@ var getRandomInt = function (min, max) {
 
 
 var fillAnnouncements = function () {
-  var types = ['palace', 'flat', 'house', 'bungalo'];
   var announcements = [];
-
 
   for (var i = 1; i <= ANNOUNCMENTS_COUNT; i++) {
     var objectToAdd = {
@@ -28,7 +27,7 @@ var fillAnnouncements = function () {
       },
 
       'offer': {
-        'type': types[getRandomInt(0, types.length)],
+        'type': TYPES[getRandomInt(0, TYPES.length)],
       },
 
       'location': {
@@ -46,9 +45,10 @@ var fillAnnouncements = function () {
 var renderAnnouncement = function (announcement) {
   var newPin = pinTemplate.cloneNode(true);
   var pinImg = newPin.querySelector('img');
-  newPin.style = 'left:' + announcement.location.x + 'px; top: ' + announcement.location.y + 'px;';
+  newPin.style.left = announcement.location.x + 'px';
+  newPin.style.top = announcement.location.y + 'px';
   pinImg.src = announcement.author.avatar;
-  newPin.alt = 'Заголовок объявления';
+  pinImg.alt = 'Заголовок объявления';
   return newPin;
 };
 
