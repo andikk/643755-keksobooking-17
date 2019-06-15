@@ -52,14 +52,67 @@ var renderAnnouncement = function (announcement) {
   return newPin;
 };
 
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
+//var map = document.querySelector('.map');
+//map.classList.remove('map--faded');
 
-var announcments = fillAnnouncements();
-var fragment = document.createDocumentFragment();
+// var announcments = fillAnnouncements();
+// var fragment = document.createDocumentFragment();
 
-for (var i = 0; i < announcments.length; i++) {
-  fragment.appendChild(renderAnnouncement(announcments[i]));
+// for (var i = 0; i < announcments.length; i++) {
+//   fragment.appendChild(renderAnnouncement(announcments[i]));
+// }
+
+// mapPins.appendChild(fragment);
+
+var changeAttribute = function (collection, status) {
+  for (var i = 0; i < collection.length; i++) {
+    if (status === false) {
+      collection[i].disabled = true;
+    } else {
+      collection[i].disabled = false;
+    }
+
+  }
 }
 
-mapPins.appendChild(fragment);
+var activatePage = function (status) {
+  var map = document.querySelector('.map');
+  var mapFilter = document.querySelector('map__filter');
+  var adForm = document.querySelector('.ad-form');
+  var inputes = adForm.querySelectorAll('input');
+  var selectes = adForm.querySelectorAll('select');
+
+  if (status === false) {
+    map.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
+    map.classList.add('map__filter--disabled');
+    changeAttribute(inputes, false);
+    changeAttribute(selectes, false);
+  } else {
+    map.classList.remove('map--faded');
+    adForm.classList.remove('ad-form--disabled');
+    map.classList.remove('map__filter--disabled');
+    changeAttribute(inputes, true);
+    changeAttribute(selectes, true);
+  }
+}
+
+activatePage(false);
+
+var mapPinMain = document.querySelector('.map__pin--main');
+
+mapPinMain.addEventListener('click', function() {
+  activatePage(true);
+});
+
+mapPinMain.addEventListener('mouseup', function(evt) {
+  var address = document.querySelector('#address');
+  var coordX = evt.clientX;
+  var coordY = evt.clientY;
+
+  address.value = coordX + ',' + coordY;
+
+});
+
+
+
