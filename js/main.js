@@ -77,7 +77,7 @@ var changeAttribute = function (collection, status) {
 
 var activatePage = function (status) {
   var map = document.querySelector('.map');
-  var mapFilter = document.querySelector('map__filter');
+  var mapFilter = document.querySelector('.map__filter');
   var adForm = document.querySelector('.ad-form');
   var inputes = adForm.querySelectorAll('input');
   var selectes = adForm.querySelectorAll('select');
@@ -106,11 +106,15 @@ mapPinMain.addEventListener('click', function () {
 });
 
 mapPinMain.addEventListener('mouseup', function () {
-  // var PIN_SIZE = 65;
-  // var PIN_POINTER_LENGTH = 10;
+  var PIN_SIZE = 65;
+  var PIN_POINTER_LENGTH = 10;
 
   var address = document.querySelector('#address');
+  var coordX = mapPinMain.style.left;
+  coordX = Number(coordX.substr(0, coordX.length - 2)) + PIN_SIZE / 2;
 
-  address.value = mapPinMain.style.left + ',' + mapPinMain.style.top;
+  var coordY = mapPinMain.style.top;
+  coordY = Number(coordY.substr(0, coordY.length - 2)) + PIN_POINTER_LENGTH;
 
+  address.value = coordX + ',' + coordY;
 });
