@@ -79,8 +79,9 @@ var activatePage = function (status) {
   var map = document.querySelector('.map');
   var mapFilter = document.querySelector('.map__filter');
   var adForm = document.querySelector('.ad-form');
-  var inputes = adForm.querySelectorAll('input');
-  var selectes = adForm.querySelectorAll('select');
+  var inputes = document.querySelectorAll('input');
+  var selectes = document.querySelectorAll('select');
+  var textarea = adForm.querySelector('textarea');
 
   if (status === false) {
     map.classList.add('map--faded');
@@ -88,12 +89,14 @@ var activatePage = function (status) {
     mapFilter.classList.add('map__filter--disabled');
     changeAttribute(inputes, false);
     changeAttribute(selectes, false);
+    textarea.disabled = true;
   } else {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     mapFilter.classList.remove('map__filter--disabled');
     changeAttribute(inputes, true);
     changeAttribute(selectes, true);
+    textarea.disabled = false;
   }
 };
 
@@ -106,15 +109,22 @@ mapPinMain.addEventListener('click', function () {
 });
 
 mapPinMain.addEventListener('mouseup', function () {
-  var PIN_SIZE = 65;
-  var PIN_POINTER_LENGTH = 10;
+  // var PIN_SIZE = 65;
+  // var PIN_POINTER_LENGTH = 10;
 
-  var address = document.querySelector('#address');
-  var coordX = mapPinMain.style.left;
-  coordX = Number(coordX.substr(0, coordX.length - 2)) + PIN_SIZE / 2;
+//  var address = document.querySelector('#address');
 
-  var coordY = mapPinMain.style.top;
-  coordY = Number(coordY.substr(0, coordY.length - 2)) + PIN_POINTER_LENGTH;
+// var coordX = mapPinMain.style.left;
+// coordX = Number(coordX.substr(0, coordX.length - 2)) + PIN_SIZE / 2;
+
+// var coordY = mapPinMain.style.top;
+// coordY = Number(coordY.substr(0, coordY.length - 2)) + PIN_POINTER_LENGTH;
+
+  console.log(mapPinMain.offsetLeft);
+  console.log(mapPinMain.style.left);
+
+  var coordX = mapPinMain.offsetLeft + Math.ceil(mapPinMain.offsetWidth / 2);
+  var coordY = mapPinMain.offsetTop + Math.ceil(mapPinMain.offsetHeight / 2);
 
   address.value = coordX + ',' + coordY;
 });
