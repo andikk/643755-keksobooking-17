@@ -112,16 +112,17 @@ mapPinMain.addEventListener('mouseup', function () {
   // var PIN_SIZE = 65;
   // var PIN_POINTER_LENGTH = 10;
 
-//  var address = document.querySelector('#address');
+  var address = document.querySelector('#address');
 
-// var coordX = mapPinMain.style.left;
-// coordX = Number(coordX.substr(0, coordX.length - 2)) + PIN_SIZE / 2;
+  // var coordX = mapPinMain.style.left;
+  // console.log(mapPinMain.offsetLeft - PIN_SIZE);
+  // coordX = Number(coordX.substr(0, coordX.length - 2)) + PIN_SIZE;
 
-// var coordY = mapPinMain.style.top;
-// coordY = Number(coordY.substr(0, coordY.length - 2)) + PIN_POINTER_LENGTH;
+  // var coordY = mapPinMain.style.top;
+  // coordY = Number(coordY.substr(0, coordY.length - 2)) + PIN_POINTER_LENGTH;
 
-  var coordX = mapPinMain.offsetLeft + Math.ceil(mapPinMain.offsetWidth / 2);
-  var coordY = mapPinMain.offsetTop + Math.ceil(mapPinMain.offsetHeight / 2);
+   var coordX = mapPinMain.offsetLeft + Math.ceil(mapPinMain.offsetWidth / 2);
+   var coordY = mapPinMain.offsetTop + Math.ceil(mapPinMain.offsetHeight / 2);
 
   address.value = coordX + ',' + coordY;
 });

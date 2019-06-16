@@ -1258,7 +1258,7 @@ fieldset {
     height: 2px;
     background: red;
 
-    top: 200px;
+    top: 460px;
 }
 
 .map__pins::after {
@@ -1266,5 +1266,5 @@ fieldset {
     width: 2px;
     height: 100%;
 
-    left: 385px;
+    left: 600px;
 }
