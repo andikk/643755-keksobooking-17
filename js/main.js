@@ -120,9 +120,6 @@ mapPinMain.addEventListener('mouseup', function () {
 // var coordY = mapPinMain.style.top;
 // coordY = Number(coordY.substr(0, coordY.length - 2)) + PIN_POINTER_LENGTH;
 
-  console.log(mapPinMain.offsetLeft);
-  console.log(mapPinMain.style.left);
-
   var coordX = mapPinMain.offsetLeft + Math.ceil(mapPinMain.offsetWidth / 2);
   var coordY = mapPinMain.offsetTop + Math.ceil(mapPinMain.offsetHeight / 2);
 
