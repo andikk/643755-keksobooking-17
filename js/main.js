@@ -56,11 +56,11 @@ var renderAnnouncement = function (announcement) {
 // map.classList.remove('map--faded');
 
 var announcments = fillAnnouncements();
-// var fragment = document.createDocumentFragment();
+var fragment = document.createDocumentFragment();
 
-// for (var i = 0; i < announcments.length; i++) {
-//   fragment.appendChild(renderAnnouncement(announcments[i]));
-// }
+for (var k = 0; k < announcments.length; k++) {
+  fragment.appendChild(renderAnnouncement(announcments[k]));
+}
 
 // mapPins.appendChild(fragment);
 
@@ -109,20 +109,12 @@ mapPinMain.addEventListener('click', function () {
 });
 
 mapPinMain.addEventListener('mouseup', function () {
-  // var PIN_SIZE = 65;
   var CONST_FOR_POINTER = 20;
 
   var address = document.querySelector('#address');
 
-  // var coordX = mapPinMain.style.left;
-  // console.log(mapPinMain.offsetLeft - PIN_SIZE);
-  // coordX = Number(coordX.substr(0, coordX.length - 2)) + PIN_SIZE;
-
-  // var coordY = mapPinMain.style.top;
-  // coordY = Number(coordY.substr(0, coordY.length - 2)) + PIN_POINTER_LENGTH;
-
-   var coordX = mapPinMain.offsetLeft + Math.ceil(mapPinMain.offsetWidth / 2);
-   var coordY = mapPinMain.offsetTop + mapPinMain.offsetHeight + CONST_FOR_POINTER;
+  var coordX = mapPinMain.offsetLeft + Math.ceil(mapPinMain.offsetWidth / 2);
+  var coordY = mapPinMain.offsetTop + mapPinMain.offsetHeight + CONST_FOR_POINTER;
 
   address.value = coordX + ',' + coordY;
 });

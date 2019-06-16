@@ -1250,6 +1250,15 @@ fieldset {
 }
 
 
+.map__pins::after {
+    top: 0px;
+    width: 2px;
+    height: 100%;
+
+    left: 600px;
+}
+
+
 .map__pins::before,
 .map__pins::after{
     content: '';
@@ -1261,10 +1270,3 @@ fieldset {
     top: 460px;
 }
 
-.map__pins::after {
-    top: 0px;
-    width: 2px;
-    height: 100%;
-
-    left: 600px;
-}
