@@ -110,7 +110,7 @@ mapPinMain.addEventListener('click', function () {
 
 mapPinMain.addEventListener('mouseup', function () {
   // var PIN_SIZE = 65;
-  // var PIN_POINTER_LENGTH = 10;
+  var CONST_FOR_POINTER = 20;
 
   var address = document.querySelector('#address');
 
@@ -122,7 +122,7 @@ mapPinMain.addEventListener('mouseup', function () {
   // coordY = Number(coordY.substr(0, coordY.length - 2)) + PIN_POINTER_LENGTH;
 
    var coordX = mapPinMain.offsetLeft + Math.ceil(mapPinMain.offsetWidth / 2);
-   var coordY = mapPinMain.offsetTop + Math.ceil(mapPinMain.offsetHeight / 2);
+   var coordY = mapPinMain.offsetTop + mapPinMain.offsetHeight + CONST_FOR_POINTER;
 
   address.value = coordX + ',' + coordY;
 });
