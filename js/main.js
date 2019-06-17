@@ -7,6 +7,8 @@ var PIN_HEIGHT = 70;
 var LOCATION_Y_NUMBER_START = 130;
 var LOCATION_Y_NUMBER_END = 630;
 var ANNOUNCMENTS_COUNT = 8;
+var CONST_FOR_POINTER = 20;
+var PIN_SIZE = 65;
 
 var pinTemplate = document.querySelector('#pin').content.querySelector('button');
 var mapPins = document.querySelector('.map__pins');
@@ -109,12 +111,11 @@ mapPinMain.addEventListener('click', function () {
 });
 
 mapPinMain.addEventListener('mouseup', function () {
-  var CONST_FOR_POINTER = 20;
 
   var address = document.querySelector('#address');
 
-  var coordX = mapPinMain.offsetLeft + Math.ceil(mapPinMain.offsetWidth / 2);
-  var coordY = mapPinMain.offsetTop + mapPinMain.offsetHeight + CONST_FOR_POINTER;
+  var coordX = mapPinMain.offsetLeft + Math.ceil(PIN_SIZE / 2);
+  var coordY = mapPinMain.offsetTop + PIN_SIZE + CONST_FOR_POINTER;
 
   address.value = coordX + ',' + coordY;
 });
