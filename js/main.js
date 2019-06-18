@@ -119,3 +119,56 @@ mapPinMain.addEventListener('mouseup', function () {
 
   address.value = coordX + ',' + coordY;
 });
+
+// var form = document.querySelector('.ad-form');
+// form.addEventListener('submit', function (evt) {
+//   evt.preventDefault();
+
+// });
+
+var typeSelect = document.querySelector('#type');
+typeSelect.addEventListener('change', function () {
+  var priceInput = document.querySelector('#price');
+
+  switch (typeSelect.value) {
+    case 'bungalo':
+      priceInput.value = '0';
+      break;
+    case 'flat':
+      priceInput.value = '1000';
+      break;
+    case 'house':
+      priceInput.value = '5000';
+      break;
+    case 'palace':
+      priceInput.value = '10000';
+      break;
+  }
+});
+
+var timeInSelect = document.querySelector('#timein');
+var timeOutSelect = document.querySelector('#timeout');
+
+
+var changeSelectValue = function (selectedValue, selectForChange) {
+
+  switch (selectedValue) {
+    case '12:00':
+      selectForChange.value = '12:00';
+      break;
+    case '13:00':
+      selectForChange.value = '13:00';
+      break;
+    case '14:00':
+      selectForChange.value = '14:00';
+      break;
+  }
+};
+
+timeInSelect.addEventListener('change', function () {
+  changeSelectValue(timeInSelect.value, timeOutSelect);
+});
+
+timeOutSelect.addEventListener('change', function () {
+  changeSelectValue(timeOutSelect.value, timeInSelect);
+});
