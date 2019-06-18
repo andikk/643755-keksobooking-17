@@ -151,18 +151,7 @@ var timeOutSelect = document.querySelector('#timeout');
 
 
 var changeSelectValue = function (selectedValue, selectForChange) {
-
-  switch (selectedValue) {
-    case '12:00':
-      selectForChange.value = '12:00';
-      break;
-    case '13:00':
-      selectForChange.value = '13:00';
-      break;
-    case '14:00':
-      selectForChange.value = '14:00';
-      break;
-  }
+  selectForChange.value = selectedValue;
 };
 
 timeInSelect.addEventListener('change', function () {
