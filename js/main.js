@@ -10,8 +10,12 @@ var ANNOUNCMENTS_COUNT = 8;
 var CONST_FOR_POINTER = 20;
 var PIN_SIZE = 65;
 
+// НАЧАЛО БЛОКА для генерации меток с объявлениями и размещениями их на карте
+// шаблон для метки с объявлением
 var pinTemplate = document.querySelector('#pin').content.querySelector('button');
+// карта для метки с обхявленим
 var mapPins = document.querySelector('.map__pins');
+// ширина карты, на которой размещаются метки с объявлениями
 var mapWidth = mapPins.clientWidth;
 
 // функция для генерации случайных чисел в заданном интервале
@@ -72,8 +76,11 @@ for (var k = 0; k < announcments.length; k++) {
 }
 // выводим сформированный фрагмент с разметкой на карту
 // mapPins.appendChild(fragment);
+// КОНЕЦ БЛОКА
 
+// НАЧАЛО БЛОКА для активации и деактивации страницы
 // функция, которая меняет аттрибут доступности для переданной в неё HTML коллекцию
+// используется для активации и деактивации страницы
 var changeAttribute = function (collection, status) {
   for (var i = 0; i < collection.length; i++) {
     if (status === false) {
@@ -112,8 +119,9 @@ var activatePage = function (status) {
 
 // при загрузке деактивируем страницу
 activatePage(false);
+// КОНЕЦ БЛОКА
 
-// блок кода, который в зависимости от выбранного типа жилья устанавливает
+// НАЧАЛО БЛОКА, который в зависимости от выбранного типа жилья устанавливает
 // соответствующий плейсхолдер в поле с ценой
 var typeSelect = document.querySelector('#type');
 typeSelect.addEventListener('change', function () {
@@ -134,9 +142,9 @@ typeSelect.addEventListener('change', function () {
       break;
   }
 });
-// конец блока
+// КОНЕЦ БЛОКА
 
-// блок кода, который синхронизирует заначения полей приезда и отъезда
+// НАЧАЛО БЛОКА, который синхронизирует заначения полей приезда и отъезда
 var timeInSelect = document.querySelector('#timein');
 var timeOutSelect = document.querySelector('#timeout');
 
@@ -151,8 +159,10 @@ timeInSelect.addEventListener('change', function () {
 timeOutSelect.addEventListener('change', function () {
   changeSelectValue(timeOutSelect.value, timeInSelect);
 });
-// конец блока
+// КОНЕЦ БЛОКА
 
+
+// НАЧАЛО БЛОКА кода, отвечающего за перемещения пина на карте
 // функция для записи координатов пина в поле с адресом
 var saveLocation = function (coordX, coordY) {
   var mapPinMain = document.querySelector('.map__pin--main');
@@ -162,7 +172,6 @@ var saveLocation = function (coordX, coordY) {
   address.value = coordX + ',' + coordY;
 };
 
-// блок кода, отвечающий за перемещения пина на карте
 var mapPinMain = document.querySelector('.map__pin--main');
 
 mapPinMain.addEventListener('mousedown', function (evt) {
@@ -233,3 +242,4 @@ mapPinMain.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 });
+// КОНЕЦ БЛОКА
