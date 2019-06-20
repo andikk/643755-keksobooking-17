@@ -14,15 +14,19 @@ var pinTemplate = document.querySelector('#pin').content.querySelector('button')
 var mapPins = document.querySelector('.map__pins');
 var mapWidth = mapPins.clientWidth;
 
+// функция для генерации случайных чисел в заданном интервале
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-
+// функция для создания объекта с объявлениями
 var fillAnnouncements = function () {
+  // объявили массив с объявлениями
   var announcements = [];
 
+  // в цикле генерируем 5 объектов
   for (var i = 1; i <= ANNOUNCMENTS_COUNT; i++) {
+    // сгенерировали объект для добавления
     var objectToAdd = {
       'author': {
         'avatar': 'img/avatars/user0' + i + '.png',
@@ -37,13 +41,14 @@ var fillAnnouncements = function () {
         'y': getRandomInt(LOCATION_Y_NUMBER_START, LOCATION_Y_NUMBER_END - PIN_HEIGHT),
       }
     };
-
+    // добавляем сформированный объект к массиву
     announcements.push(objectToAdd);
   }
-
+  // в ответ на вызов функции возвращаем массив с формированными объектами
   return announcements;
 };
 
+// функция используется для отрисовки конкретного объявления на карте
 var renderAnnouncement = function (announcement) {
   var newPin = pinTemplate.cloneNode(true);
   var pinImg = newPin.querySelector('img');
@@ -54,18 +59,21 @@ var renderAnnouncement = function (announcement) {
   return newPin;
 };
 
-// var map = document.querySelector('.map');
-// map.classList.remove('map--faded');
-
+// объявляем переменную для массива с объявлениями и заполняем её с помощью функции
 var announcments = fillAnnouncements();
+
+// создаём переменную куда будем записывать разметку с объявлениями
 var fragment = document.createDocumentFragment();
 
+// проходим в цикле по всем объявлениям из массива announcments
 for (var k = 0; k < announcments.length; k++) {
+  // формируем фрагмент с разметкой
   fragment.appendChild(renderAnnouncement(announcments[k]));
 }
-
+// выводим сформированный фрагмент с разметкой на карту
 // mapPins.appendChild(fragment);
 
+// функция, которая меняет аттрибут доступности для переданной в неё HTML коллекцию
 var changeAttribute = function (collection, status) {
   for (var i = 0; i < collection.length; i++) {
     if (status === false) {
@@ -73,10 +81,10 @@ var changeAttribute = function (collection, status) {
     } else {
       collection[i].disabled = false;
     }
-
   }
 };
 
+// функция, в зависимости от переданного аттрибута деактивирут или активирует страницу
 var activatePage = function (status) {
   var map = document.querySelector('.map');
   var mapFilter = document.querySelector('.map__filter');
@@ -102,8 +110,50 @@ var activatePage = function (status) {
   }
 };
 
+// при загрузке деактивируем страницу
 activatePage(false);
 
+// блок кода, который в зависимости от выбранного типа жилья устанавливает
+// соответствующий плейсхолдер в поле с ценой
+var typeSelect = document.querySelector('#type');
+typeSelect.addEventListener('change', function () {
+  var priceInput = document.querySelector('#price');
+
+  switch (typeSelect.value) {
+    case 'bungalo':
+      priceInput.placeholder = '0';
+      break;
+    case 'flat':
+      priceInput.placeholder = '1000';
+      break;
+    case 'house':
+      priceInput.placeholder = '5000';
+      break;
+    case 'palace':
+      priceInput.placeholder = '10000';
+      break;
+  }
+});
+// конец блока
+
+// блок кода, который синхронизирует заначения полей приезда и отъезда
+var timeInSelect = document.querySelector('#timein');
+var timeOutSelect = document.querySelector('#timeout');
+
+var changeSelectValue = function (selectedValue, selectForChange) {
+  selectForChange.value = selectedValue;
+};
+
+timeInSelect.addEventListener('change', function () {
+  changeSelectValue(timeInSelect.value, timeOutSelect);
+});
+
+timeOutSelect.addEventListener('change', function () {
+  changeSelectValue(timeOutSelect.value, timeInSelect);
+});
+// конец блока
+
+// функция для записи координатов пина в поле с адресом
 var saveLocation = function (coordX, coordY) {
   var mapPinMain = document.querySelector('.map__pin--main');
   var address = document.querySelector('#address');
@@ -112,6 +162,7 @@ var saveLocation = function (coordX, coordY) {
   address.value = coordX + ',' + coordY;
 };
 
+// блок кода, отвечающий за перемещения пина на карте
 var mapPinMain = document.querySelector('.map__pin--main');
 
 mapPinMain.addEventListener('mousedown', function (evt) {
@@ -123,6 +174,8 @@ mapPinMain.addEventListener('mousedown', function (evt) {
     y: evt.clientY
   };
 
+  // флаг нужен для того, чтобы понимать перетаскивают пин
+  // или просто кликнули на него и не двигали
   var dragged = false;
 
   var onMouseMove = function (moveEvt) {
@@ -143,6 +196,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
 
     var map = document.querySelector('.map');
 
+    // здесь мы проверям не вынесли ли пин за границы карты
     if ((curY > LOCATION_Y_NUMBER_START) && (curY < LOCATION_Y_NUMBER_END)) {
       mapPinMain.style.top = curY + 'px';
     }
@@ -151,20 +205,24 @@ mapPinMain.addEventListener('mousedown', function (evt) {
       mapPinMain.style.left = curX + 'px';
     }
 
+    // записываем значения пина в поле адрес
     saveLocation(mapPinMain.style.top, mapPinMain.style.left);
   };
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
+
+    // записываем значения пина в поле адрес
     saveLocation(mapPinMain.style.top, mapPinMain.style.left);
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
 
+    // если пин двигали, тогда
     if (dragged) {
-
       var onClickPreventDefault = function (onClickEvt) {
         onClickEvt.preventDefault();
         mapPinMain.removeEventListener('click', onClickPreventDefault);
+        // активируем страницу
         activatePage(true);
       };
 
@@ -174,40 +232,4 @@ mapPinMain.addEventListener('mousedown', function (evt) {
 
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
-});
-
-var typeSelect = document.querySelector('#type');
-typeSelect.addEventListener('change', function () {
-  var priceInput = document.querySelector('#price');
-
-  switch (typeSelect.value) {
-    case 'bungalo':
-      priceInput.placeholder = '0';
-      break;
-    case 'flat':
-      priceInput.placeholder = '1000';
-      break;
-    case 'house':
-      priceInput.placeholder = '5000';
-      break;
-    case 'palace':
-      priceInput.placeholder = '10000';
-      break;
-  }
-});
-
-var timeInSelect = document.querySelector('#timein');
-var timeOutSelect = document.querySelector('#timeout');
-
-
-var changeSelectValue = function (selectedValue, selectForChange) {
-  selectForChange.value = selectedValue;
-};
-
-timeInSelect.addEventListener('change', function () {
-  changeSelectValue(timeInSelect.value, timeOutSelect);
-});
-
-timeOutSelect.addEventListener('change', function () {
-  changeSelectValue(timeOutSelect.value, timeInSelect);
 });
