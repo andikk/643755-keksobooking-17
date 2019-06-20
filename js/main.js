@@ -200,8 +200,17 @@ mapPinMain.addEventListener('mousedown', function (evt) {
       y: moveEvt.clientY
     };
 
-    var curY = mapPinMain.offsetTop + PIN_SIZE + CONST_FOR_POINTER;
-    var curX = mapPinMain.offsetLeft + Math.ceil(PIN_SIZE / 2);
+    var newX = mapPinMain.offsetLeft - shift.x;
+    var newY = mapPinMain.offsetTop - shift.y;
+
+    var curX = newX + Math.ceil(PIN_SIZE / 2);
+    var curY = newY + PIN_SIZE + CONST_FOR_POINTER;
+
+    // console.log('x ' + (mapPinMain.offsetLeft - shift.x));
+    // console.log('curX ' + curX);
+
+    // console.log('y ' + (mapPinMain.offsetTop - shift.y));
+    // console.log('curY ' + curY);
 
     var map = document.querySelector('.map');
 
