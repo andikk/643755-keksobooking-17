@@ -144,6 +144,24 @@ typeSelect.addEventListener('change', function () {
 });
 // КОНЕЦ БЛОКА
 
+// НАЧАЛО БЛОКА, который синхронизирует заначения полей приезда и отъезда
+var timeInSelect = document.querySelector('#timein');
+var timeOutSelect = document.querySelector('#timeout');
+
+var changeSelectValue = function (selectedValue, selectForChange) {
+  selectForChange.value = selectedValue;
+};
+
+timeInSelect.addEventListener('change', function () {
+  changeSelectValue(timeInSelect.value, timeOutSelect);
+});
+
+timeOutSelect.addEventListener('change', function () {
+  changeSelectValue(timeOutSelect.value, timeInSelect);
+});
+// КОНЕЦ БЛОКА
+
+
 // НАЧАЛО БЛОКА кода, отвечающего за перемещения пина на карте
 // функция для записи координатов пина в поле с адресом
 var saveLocation = function (coordX, coordY) {
