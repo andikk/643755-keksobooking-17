@@ -75,7 +75,7 @@ for (var k = 0; k < announcments.length; k++) {
   fragment.appendChild(renderAnnouncement(announcments[k]));
 }
 // выводим сформированный фрагмент с разметкой на карту
-// mapPins.appendChild(fragment);
+mapPins.appendChild(fragment);
 // КОНЕЦ БЛОКА
 
 // НАЧАЛО БЛОКА для активации и деактивации страницы
