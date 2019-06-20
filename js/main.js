@@ -200,18 +200,18 @@ mapPinMain.addEventListener('mousedown', function (evt) {
       y: moveEvt.clientY
     };
 
-    var curY = mapPinMain.offsetTop - shift.y;
-    var curX = mapPinMain.offsetLeft - shift.x;
+    var curY = mapPinMain.offsetTop + PIN_SIZE + CONST_FOR_POINTER;
+    var curX = mapPinMain.offsetLeft + Math.ceil(PIN_SIZE / 2);
 
     var map = document.querySelector('.map');
 
     // здесь мы проверям не вынесли ли пин за границы карты
     if ((curY > LOCATION_Y_NUMBER_START) && (curY < LOCATION_Y_NUMBER_END)) {
-      mapPinMain.style.top = curY + 'px';
+      mapPinMain.style.top = mapPinMain.offsetTop - shift.y + 'px';
     }
 
     if ((curX > 0) && (curX < map.clientWidth - PIN_SIZE)) {
-      mapPinMain.style.left = curX + 'px';
+      mapPinMain.style.left = mapPinMain.offsetLeft - shift.x + 'px';
     }
 
     // записываем значения пина в поле адрес
@@ -228,11 +228,11 @@ mapPinMain.addEventListener('mousedown', function (evt) {
 
     // если пин двигали, тогда
     if (dragged) {
+      // активируем страницу
+      activatePage(true);
       var onClickPreventDefault = function (onClickEvt) {
         onClickEvt.preventDefault();
         mapPinMain.removeEventListener('click', onClickPreventDefault);
-        // активируем страницу
-        activatePage(true);
       };
 
       mapPinMain.addEventListener('click', onClickPreventDefault);
