@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var TYPES = ['palace', 'flat', 'house', 'bungalo'];
   var LOCATION_X_NUMBER_START = 1;
   var PIN_HALF_WIDTH = 25;
   var PIN_HEIGHT = 70;
@@ -48,19 +47,19 @@
   //   // в ответ на вызов функции возвращаем массив с формированными объектами
   //   return announcements;
   // };
-  window.asd = '123';
+  // window.asd = '123';
 
-  var onError = function (message) {
-    console.error(message);
+  var onError = function () {
+    var mainBlock = document.querySelector('main');
+    var errorBlock = document.querySelector('#error').content.querySelector('.error');
+    mainBlock.appendChild(errorBlock);
   };
 
   var onSuccess = function (data) {
-    window.announcements = data;
-  //  console.log(window.announcements);
+    window.data.announcements = data;
   };
 
   window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
-
 
   window.data = {
     LOCATION_X_NUMBER_START: LOCATION_X_NUMBER_START,

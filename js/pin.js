@@ -10,8 +10,7 @@
     var mapPins = document.querySelector('.map__pins');
 
     // объявляем переменную для массива с объявлениями и заполняем её с помощью функции
-    var announcments = window.announcments;
-    console.log(window.asd);
+    var announcments = window.data.announcements;
 
     // создаём переменную куда будем записывать разметку с объявлениями
     var fragment = document.createDocumentFragment();
