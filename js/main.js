@@ -227,7 +227,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
       mapPinMain.style.top = mapPinMain.offsetTop - shift.y + 'px';
     }
 
-    if ((curX > 0) && (curX < map.clientWidth)) {
+    if ((curX >= 0) && (curX <= map.clientWidth)) {
       mapPinMain.style.left = mapPinMain.offsetLeft - shift.x + 'px';
     }
 
@@ -245,9 +245,9 @@ mapPinMain.addEventListener('mousedown', function (evt) {
 
     // если пин двигали, тогда
     if (dragged) {
-
+      // если страница неактивна
       if (pageIsActive === false) {
-        pageIsActive = true;
+        // активируем её и показываем пины
         activatePage(true);
         showPins();
       }
