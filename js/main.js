@@ -9,63 +9,82 @@ var LOCATION_Y_NUMBER_END = 630;
 var ANNOUNCMENTS_COUNT = 8;
 var CONST_FOR_POINTER = 20;
 var PIN_SIZE = 65;
+var pageIsActive = false;
 
-var pinTemplate = document.querySelector('#pin').content.querySelector('button');
-var mapPins = document.querySelector('.map__pins');
-var mapWidth = mapPins.clientWidth;
+// НАЧАЛО БЛОКА для генерации меток с объявлениями и размещениями их на карте
+// шаблон для метки с объявлением
+var showPins = function () {
 
-var getRandomInt = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+  var pinTemplate = document.querySelector('#pin').content.querySelector('button');
+  // карта для метки с обхявленим
+  var mapPins = document.querySelector('.map__pins');
+  // ширина карты, на которой размещаются метки с объявлениями
+  var mapWidth = mapPins.clientWidth;
 
+  // функция для генерации случайных чисел в заданном интервале
+  var getRandomInt = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
 
-var fillAnnouncements = function () {
-  var announcements = [];
+  // функция для создания объекта с объявлениями
+  var fillAnnouncements = function () {
+    // объявили массив с объявлениями
+    var announcements = [];
 
-  for (var i = 1; i <= ANNOUNCMENTS_COUNT; i++) {
-    var objectToAdd = {
-      'author': {
-        'avatar': 'img/avatars/user0' + i + '.png',
-      },
+    // в цикле генерируем 5 объектов
+    for (var i = 1; i <= ANNOUNCMENTS_COUNT; i++) {
+      // сгенерировали объект для добавления
+      var objectToAdd = {
+        'author': {
+          'avatar': 'img/avatars/user0' + i + '.png',
+        },
 
-      'offer': {
-        'type': TYPES[getRandomInt(0, TYPES.length)],
-      },
+        'offer': {
+          'type': TYPES[getRandomInt(0, TYPES.length)],
+        },
 
-      'location': {
-        'x': getRandomInt(LOCATION_X_NUMBER_START, mapWidth - PIN_HALF_WIDTH),
-        'y': getRandomInt(LOCATION_Y_NUMBER_START, LOCATION_Y_NUMBER_END - PIN_HEIGHT),
-      }
-    };
+        'location': {
+          'x': getRandomInt(LOCATION_X_NUMBER_START, mapWidth - PIN_HALF_WIDTH),
+          'y': getRandomInt(LOCATION_Y_NUMBER_START, LOCATION_Y_NUMBER_END - PIN_HEIGHT),
+        }
+      };
+      // добавляем сформированный объект к массиву
+      announcements.push(objectToAdd);
+    }
+    // в ответ на вызов функции возвращаем массив с формированными объектами
+    return announcements;
+  };
 
-    announcements.push(objectToAdd);
+  // функция используется для отрисовки конкретного объявления на карте
+  var renderAnnouncement = function (announcement) {
+    var newPin = pinTemplate.cloneNode(true);
+    var pinImg = newPin.querySelector('img');
+    newPin.style.left = announcement.location.x + 'px';
+    newPin.style.top = announcement.location.y + 'px';
+    pinImg.src = announcement.author.avatar;
+    pinImg.alt = 'Заголовок объявления';
+    return newPin;
+  };
+
+  // объявляем переменную для массива с объявлениями и заполняем её с помощью функции
+  var announcments = fillAnnouncements();
+
+  // создаём переменную куда будем записывать разметку с объявлениями
+  var fragment = document.createDocumentFragment();
+
+  // проходим в цикле по всем объявлениям из массива announcments
+  for (var k = 0; k < announcments.length; k++) {
+    // формируем фрагмент с разметкой
+    fragment.appendChild(renderAnnouncement(announcments[k]));
   }
-
-  return announcements;
+  // выводим сформированный фрагмент с разметкой на карту
+  mapPins.appendChild(fragment);
 };
+// КОНЕЦ БЛОКА.
 
-var renderAnnouncement = function (announcement) {
-  var newPin = pinTemplate.cloneNode(true);
-  var pinImg = newPin.querySelector('img');
-  newPin.style.left = announcement.location.x + 'px';
-  newPin.style.top = announcement.location.y + 'px';
-  pinImg.src = announcement.author.avatar;
-  pinImg.alt = 'Заголовок объявления';
-  return newPin;
-};
-
-// var map = document.querySelector('.map');
-// map.classList.remove('map--faded');
-
-var announcments = fillAnnouncements();
-var fragment = document.createDocumentFragment();
-
-for (var k = 0; k < announcments.length; k++) {
-  fragment.appendChild(renderAnnouncement(announcments[k]));
-}
-
-// mapPins.appendChild(fragment);
-
+// НАЧАЛО БЛОКА для активации и деактивации страницы
+// функция, которая меняет аттрибут доступности для переданной в неё HTML коллекцию
+// используется для активации и деактивации страницы
 var changeAttribute = function (collection, status) {
   for (var i = 0; i < collection.length; i++) {
     if (status === false) {
@@ -73,10 +92,10 @@ var changeAttribute = function (collection, status) {
     } else {
       collection[i].disabled = false;
     }
-
   }
 };
 
+// функция, в зависимости от переданного аттрибута деактивирут или активирует страницу
 var activatePage = function (status) {
   var map = document.querySelector('.map');
   var mapFilter = document.querySelector('.map__filter');
@@ -92,6 +111,7 @@ var activatePage = function (status) {
     changeAttribute(inputes, false);
     changeAttribute(selectes, false);
     textarea.disabled = true;
+    pageIsActive = false;
   } else {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -99,33 +119,18 @@ var activatePage = function (status) {
     changeAttribute(inputes, true);
     changeAttribute(selectes, true);
     textarea.disabled = false;
+    pageIsActive = true;
   }
+
 };
 
-activatePage(false);
+// при загрузке деактивируем страницу
+activatePage(pageIsActive);
 
-var mapPinMain = document.querySelector('.map__pin--main');
+// КОНЕЦ БЛОКА
 
-mapPinMain.addEventListener('click', function () {
-  activatePage(true);
-});
-
-mapPinMain.addEventListener('mouseup', function () {
-
-  var address = document.querySelector('#address');
-
-  var coordX = mapPinMain.offsetLeft + Math.ceil(PIN_SIZE / 2);
-  var coordY = mapPinMain.offsetTop + PIN_SIZE + CONST_FOR_POINTER;
-
-  address.value = coordX + ',' + coordY;
-});
-
-// var form = document.querySelector('.ad-form');
-// form.addEventListener('submit', function (evt) {
-//   evt.preventDefault();
-
-// });
-
+// НАЧАЛО БЛОКА, который в зависимости от выбранного типа жилья устанавливает
+// соответствующий плейсхолдер в поле с ценой
 var typeSelect = document.querySelector('#type');
 typeSelect.addEventListener('change', function () {
   var priceInput = document.querySelector('#price');
@@ -145,10 +150,11 @@ typeSelect.addEventListener('change', function () {
       break;
   }
 });
+// КОНЕЦ БЛОКА
 
+// НАЧАЛО БЛОКА, который синхронизирует заначения полей приезда и отъезда
 var timeInSelect = document.querySelector('#timein');
 var timeOutSelect = document.querySelector('#timeout');
-
 
 var changeSelectValue = function (selectedValue, selectForChange) {
   selectForChange.value = selectedValue;
@@ -161,3 +167,103 @@ timeInSelect.addEventListener('change', function () {
 timeOutSelect.addEventListener('change', function () {
   changeSelectValue(timeOutSelect.value, timeInSelect);
 });
+// КОНЕЦ БЛОКА
+
+
+// НАЧАЛО БЛОКА кода, отвечающего за перемещения пина на карте
+// функция для записи координатов пина в поле с адресом
+var saveLocation = function (coordX, coordY) {
+  var mapPinMain = document.querySelector('.map__pin--main');
+  var address = document.querySelector('#address');
+  coordX = mapPinMain.offsetLeft + Math.ceil(PIN_SIZE / 2);
+  coordY = mapPinMain.offsetTop + PIN_SIZE + CONST_FOR_POINTER;
+  address.value = coordX + ',' + coordY;
+};
+
+var mapPinMain = document.querySelector('.map__pin--main');
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  // флаг нужен для того, чтобы понимать перетаскивают пин
+  // или просто кликнули на него и не двигали
+  var dragged = false;
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    dragged = true;
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    var newX = mapPinMain.offsetLeft - shift.x;
+    var newY = mapPinMain.offsetTop - shift.y;
+
+    var curX = newX + Math.ceil(PIN_SIZE / 2);
+    var curY = newY + PIN_SIZE + CONST_FOR_POINTER;
+
+    // console.log('x ' + (mapPinMain.offsetLeft - shift.x));
+    // console.log('curX ' + curX);
+
+    // console.log('y ' + (mapPinMain.offsetTop - shift.y));
+    // console.log('curY ' + curY);
+
+    var map = document.querySelector('.map');
+
+    // здесь мы проверям не вынесли ли пин за границы карты
+    if ((curY >= LOCATION_Y_NUMBER_START) && (curY <= LOCATION_Y_NUMBER_END)) {
+      mapPinMain.style.top = mapPinMain.offsetTop - shift.y + 'px';
+    }
+
+    if ((curX > 0) && (curX < map.clientWidth)) {
+      mapPinMain.style.left = mapPinMain.offsetLeft - shift.x + 'px';
+    }
+
+    // записываем значения пина в поле адрес
+    saveLocation(mapPinMain.style.top, mapPinMain.style.left);
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    // записываем значения пина в поле адрес
+    saveLocation(mapPinMain.style.top, mapPinMain.style.left);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+
+    // если пин двигали, тогда
+    if (dragged) {
+
+      if (pageIsActive === false) {
+        pageIsActive = true;
+        activatePage(true);
+        showPins();
+      }
+
+      var onClickPreventDefault = function (onClickEvt) {
+        onClickEvt.preventDefault();
+        mapPinMain.removeEventListener('click', onClickPreventDefault);
+      };
+
+      mapPinMain.addEventListener('click', onClickPreventDefault);
+
+    }
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
+
