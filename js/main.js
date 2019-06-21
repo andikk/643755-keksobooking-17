@@ -9,73 +9,77 @@ var LOCATION_Y_NUMBER_END = 630;
 var ANNOUNCMENTS_COUNT = 8;
 var CONST_FOR_POINTER = 20;
 var PIN_SIZE = 65;
+var pageIsActive = false;
 
 // НАЧАЛО БЛОКА для генерации меток с объявлениями и размещениями их на карте
 // шаблон для метки с объявлением
-var pinTemplate = document.querySelector('#pin').content.querySelector('button');
-// карта для метки с обхявленим
-var mapPins = document.querySelector('.map__pins');
-// ширина карты, на которой размещаются метки с объявлениями
-var mapWidth = mapPins.clientWidth;
+var showPins = function () {
 
-// функция для генерации случайных чисел в заданном интервале
-var getRandomInt = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+  var pinTemplate = document.querySelector('#pin').content.querySelector('button');
+  // карта для метки с обхявленим
+  var mapPins = document.querySelector('.map__pins');
+  // ширина карты, на которой размещаются метки с объявлениями
+  var mapWidth = mapPins.clientWidth;
 
-// функция для создания объекта с объявлениями
-var fillAnnouncements = function () {
-  // объявили массив с объявлениями
-  var announcements = [];
+  // функция для генерации случайных чисел в заданном интервале
+  var getRandomInt = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
 
-  // в цикле генерируем 5 объектов
-  for (var i = 1; i <= ANNOUNCMENTS_COUNT; i++) {
-    // сгенерировали объект для добавления
-    var objectToAdd = {
-      'author': {
-        'avatar': 'img/avatars/user0' + i + '.png',
-      },
+  // функция для создания объекта с объявлениями
+  var fillAnnouncements = function () {
+    // объявили массив с объявлениями
+    var announcements = [];
 
-      'offer': {
-        'type': TYPES[getRandomInt(0, TYPES.length)],
-      },
+    // в цикле генерируем 5 объектов
+    for (var i = 1; i <= ANNOUNCMENTS_COUNT; i++) {
+      // сгенерировали объект для добавления
+      var objectToAdd = {
+        'author': {
+          'avatar': 'img/avatars/user0' + i + '.png',
+        },
 
-      'location': {
-        'x': getRandomInt(LOCATION_X_NUMBER_START, mapWidth - PIN_HALF_WIDTH),
-        'y': getRandomInt(LOCATION_Y_NUMBER_START, LOCATION_Y_NUMBER_END - PIN_HEIGHT),
-      }
-    };
-    // добавляем сформированный объект к массиву
-    announcements.push(objectToAdd);
+        'offer': {
+          'type': TYPES[getRandomInt(0, TYPES.length)],
+        },
+
+        'location': {
+          'x': getRandomInt(LOCATION_X_NUMBER_START, mapWidth - PIN_HALF_WIDTH),
+          'y': getRandomInt(LOCATION_Y_NUMBER_START, LOCATION_Y_NUMBER_END - PIN_HEIGHT),
+        }
+      };
+      // добавляем сформированный объект к массиву
+      announcements.push(objectToAdd);
+    }
+    // в ответ на вызов функции возвращаем массив с формированными объектами
+    return announcements;
+  };
+
+  // функция используется для отрисовки конкретного объявления на карте
+  var renderAnnouncement = function (announcement) {
+    var newPin = pinTemplate.cloneNode(true);
+    var pinImg = newPin.querySelector('img');
+    newPin.style.left = announcement.location.x + 'px';
+    newPin.style.top = announcement.location.y + 'px';
+    pinImg.src = announcement.author.avatar;
+    pinImg.alt = 'Заголовок объявления';
+    return newPin;
+  };
+
+  // объявляем переменную для массива с объявлениями и заполняем её с помощью функции
+  var announcments = fillAnnouncements();
+
+  // создаём переменную куда будем записывать разметку с объявлениями
+  var fragment = document.createDocumentFragment();
+
+  // проходим в цикле по всем объявлениям из массива announcments
+  for (var k = 0; k < announcments.length; k++) {
+    // формируем фрагмент с разметкой
+    fragment.appendChild(renderAnnouncement(announcments[k]));
   }
-  // в ответ на вызов функции возвращаем массив с формированными объектами
-  return announcements;
+  // выводим сформированный фрагмент с разметкой на карту
+  mapPins.appendChild(fragment);
 };
-
-// функция используется для отрисовки конкретного объявления на карте
-var renderAnnouncement = function (announcement) {
-  var newPin = pinTemplate.cloneNode(true);
-  var pinImg = newPin.querySelector('img');
-  newPin.style.left = announcement.location.x + 'px';
-  newPin.style.top = announcement.location.y + 'px';
-  pinImg.src = announcement.author.avatar;
-  pinImg.alt = 'Заголовок объявления';
-  return newPin;
-};
-
-// объявляем переменную для массива с объявлениями и заполняем её с помощью функции
-var announcments = fillAnnouncements();
-
-// создаём переменную куда будем записывать разметку с объявлениями
-var fragment = document.createDocumentFragment();
-
-// проходим в цикле по всем объявлениям из массива announcments
-for (var k = 0; k < announcments.length; k++) {
-  // формируем фрагмент с разметкой
-  fragment.appendChild(renderAnnouncement(announcments[k]));
-}
-// выводим сформированный фрагмент с разметкой на карту
-mapPins.appendChild(fragment);
 // КОНЕЦ БЛОКА.
 
 // НАЧАЛО БЛОКА для активации и деактивации страницы
@@ -107,6 +111,7 @@ var activatePage = function (status) {
     changeAttribute(inputes, false);
     changeAttribute(selectes, false);
     textarea.disabled = true;
+    pageIsActive = false;
   } else {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -114,11 +119,14 @@ var activatePage = function (status) {
     changeAttribute(inputes, true);
     changeAttribute(selectes, true);
     textarea.disabled = false;
+    pageIsActive = true;
   }
+
 };
 
 // при загрузке деактивируем страницу
-activatePage(false);
+activatePage(pageIsActive);
+
 // КОНЕЦ БЛОКА
 
 // НАЧАЛО БЛОКА, который в зависимости от выбранного типа жилья устанавливает
@@ -215,11 +223,11 @@ mapPinMain.addEventListener('mousedown', function (evt) {
     var map = document.querySelector('.map');
 
     // здесь мы проверям не вынесли ли пин за границы карты
-    if ((curY > LOCATION_Y_NUMBER_START) && (curY < LOCATION_Y_NUMBER_END)) {
+    if ((curY >= LOCATION_Y_NUMBER_START) && (curY <= LOCATION_Y_NUMBER_END)) {
       mapPinMain.style.top = mapPinMain.offsetTop - shift.y + 'px';
     }
 
-    if ((curX > 0) && (curX < map.clientWidth - PIN_SIZE)) {
+    if ((curX > 0) && (curX < map.clientWidth)) {
       mapPinMain.style.left = mapPinMain.offsetLeft - shift.x + 'px';
     }
 
@@ -237,17 +245,25 @@ mapPinMain.addEventListener('mousedown', function (evt) {
 
     // если пин двигали, тогда
     if (dragged) {
-      // активируем страницу
-      activatePage(true);
+
+      if (pageIsActive === false) {
+        pageIsActive = true;
+        activatePage(true);
+        showPins();
+      }
+
       var onClickPreventDefault = function (onClickEvt) {
         onClickEvt.preventDefault();
         mapPinMain.removeEventListener('click', onClickPreventDefault);
       };
 
       mapPinMain.addEventListener('click', onClickPreventDefault);
+
     }
   };
 
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 });
+
+
