@@ -10,57 +10,6 @@
   var PIN_SIZE = 65;
   var pageIsActive = false;
 
-
-  // // функция для генерации случайных чисел в заданном интервале
-  // var getRandomInt = function (min, max) {
-  //   return Math.floor(Math.random() * (max - min + 1)) + min;
-  // };
-
-  // // функция для создания объекта с объявлениями
-  // var fillAnnouncements = function () {
-  //   var mapPins = document.querySelector('.map__pins');
-  //   var mapWidth = mapPins.clientWidth;
-
-  //   // объявили массив с объявлениями
-  //   var announcements = [];
-
-  //   // в цикле генерируем 5 объектов
-  //   for (var i = 1; i <= ANNOUNCMENTS_COUNT; i++) {
-  //     // сгенерировали объект для добавления
-  //     var objectToAdd = {
-  //       'author': {
-  //         'avatar': 'img/avatars/user0' + i + '.png',
-  //       },
-
-  //       'offer': {
-  //         'type': TYPES[getRandomInt(0, TYPES.length)],
-  //       },
-
-  //       'location': {
-  //         'x': getRandomInt(LOCATION_X_NUMBER_START, mapWidth - PIN_HALF_WIDTH),
-  //         'y': getRandomInt(LOCATION_Y_NUMBER_START, LOCATION_Y_NUMBER_END - PIN_HEIGHT),
-  //       }
-  //     };
-  //     // добавляем сформированный объект к массиву
-  //     announcements.push(objectToAdd);
-  //   }
-  //   // в ответ на вызов функции возвращаем массив с формированными объектами
-  //   return announcements;
-  // };
-  // window.asd = '123';
-
-  var onError = function () {
-    var mainBlock = document.querySelector('main');
-    var errorBlock = document.querySelector('#error').content.querySelector('.error');
-    mainBlock.appendChild(errorBlock);
-  };
-
-  var onSuccess = function (data) {
-    window.data.announcements = data;
-  };
-
-  window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
-
   window.data = {
     LOCATION_X_NUMBER_START: LOCATION_X_NUMBER_START,
     PIN_HALF_WIDTH: PIN_HALF_WIDTH,
