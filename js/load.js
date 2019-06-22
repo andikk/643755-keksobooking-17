@@ -5,7 +5,6 @@
     var OK_STATUS = 200;
     var TIMEOUT = 10000;
 
-
     var xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';
