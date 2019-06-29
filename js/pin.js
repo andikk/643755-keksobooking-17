@@ -16,14 +16,14 @@
         });
 
         if (filteredByTypePins.length >= MAX_PINS) {
-          filteredByTypePins = filteredByTypePins.slice(0, 4);
+          filteredByTypePins = filteredByTypePins.slice(0, MAX_PINS);
         }
 
         displayPins(filteredByTypePins);
 
       } else {
 
-        displayPins(pins.slice(0, 5));
+        displayPins(pins.slice(0, MAX_PINS + 1));
       }
     };
 
