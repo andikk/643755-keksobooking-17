@@ -6,18 +6,25 @@
   window.showPins = function () {
     var MAX_PINS = 4;
     var pins = [];
-    var type = document.querySelector('#type');
+    var type = document.querySelector('#housing-type');
 
     var updateAnnouncments = function () {
-      var filteredByTypePins = pins.filter(function (announcment) {
-        return announcment.offer.type === type.value;
-      });
 
-      if (filteredByTypePins.length >= MAX_PINS) {
-        filteredByTypePins = filteredByTypePins.slice(0, 4);
+      if (type.value !== 'any') {
+        var filteredByTypePins = pins.slice().filter(function (announcment) {
+          return announcment.offer.type === type.value;
+        });
+
+        if (filteredByTypePins.length >= MAX_PINS) {
+          filteredByTypePins = filteredByTypePins.slice(0, 4);
+        }
+
+        displayPins(filteredByTypePins);
+
+      } else {
+
+        displayPins(pins.slice(0, 5));
       }
-
-      displayPins(filteredByTypePins);
     };
 
     type.addEventListener('change', updateAnnouncments);
@@ -32,8 +39,9 @@
     var onSuccess = function (data) {
       // в случае успешной загрузки вызываем функцию отрисовки пинов
       // и передаём полученные данные (даннве уже в массиве с объектами)
-      pins = data.slice();
+      pins = data;
       updateAnnouncments();
+
     };
 
     // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
