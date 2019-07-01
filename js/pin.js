@@ -32,19 +32,12 @@
     // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
     window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
 
-    var addedPins = [];
 
     // функция для отображения пинов, на основе загруженных данных
     var displayPins = function (announcments) {
-      var pinsCount;
+      var addedPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-      if (announcments.length <= window.data.MAX_PINS) {
-        pinsCount = announcments.length;
-      } else {
-        pinsCount = window.data.MAX_PINS;
-      }
-
-      if (pinsCount >= 0) {
+      if (addedPins.length >= 0) {
         addedPins.forEach(function (pin) {
           pin.remove();
         });
@@ -59,7 +52,6 @@
 
       // функция, которая формирует данные пина для последующей отрисовки
       var renderAnnouncement = function (announcement) {
-
         var newPin = pinTemplate.cloneNode(true);
         var pinImg = newPin.querySelector('img');
         newPin.style.left = announcement.location.x + 'px';
@@ -70,15 +62,17 @@
       };
 
       // проходим в цикле по всем объявлениям из массива announcments
-
-      for (var k = 0; k <= pinsCount - 1; k++) {
+      for (var k = 0; k < announcments.length; k++) {
         // формируем фрагмент с разметкой
+        if (k > window.data.MAX_PINS) {
+          break;
+        }
         fragment.appendChild(renderAnnouncement(announcments[k]));
       }
       // выводим сформированный фрагмент с разметкой на карту
       mapPins.appendChild(fragment);
 
-      addedPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
     };
 
   };
