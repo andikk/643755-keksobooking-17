@@ -7,22 +7,10 @@
 
   window.showPins = function () {
 
-    var pins = [];
     var type = document.querySelector('#housing-type');
 
     var updateAnnouncments = function () {
-
-      var pinsToShow = [];
-
-      if (type.value !== 'any') {
-        pinsToShow = pins.slice().filter(function (announcment) {
-          return announcment.offer.type === type.value;
-        });
-      } else {
-        pinsToShow = pins;
-      }
-
-      displayPins(pinsToShow);
+      displayPins(window.filter.pinsFilteredByType());
     };
 
     type.addEventListener('change', updateAnnouncments);
@@ -37,7 +25,7 @@
     var onSuccess = function (data) {
       // в случае успешной загрузки вызываем функцию отрисовки пинов
       // и передаём полученные данные (даннве уже в массиве с объектами)
-      pins = data;
+      window.data.pins = data;
       updateAnnouncments();
     };
 

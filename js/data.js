@@ -10,6 +10,7 @@
   var PIN_SIZE = 65;
   var MAX_PINS = 5;
   var pageIsActive = false;
+  var pins = [];
 
   window.data = {
     LOCATION_X_NUMBER_START: LOCATION_X_NUMBER_START,
@@ -22,6 +23,7 @@
     PIN_SIZE: PIN_SIZE,
     MAX_PINS: MAX_PINS,
     pageIsActive: pageIsActive,
+    pins: pins
   };
 
 })();
