@@ -3,28 +3,26 @@
   // НАЧАЛО БЛОКА для генерации меток с объявлениями и размещениями их на карте
   // шаблон для метки с объявлением
   // функция используется для отрисовки конкретного объявления на карте
+
+
   window.showPins = function () {
-    var MAX_PINS = 4;
+
     var pins = [];
     var type = document.querySelector('#housing-type');
 
     var updateAnnouncments = function () {
 
+      var pinsToShow = [];
+
       if (type.value !== 'any') {
-        var filteredByTypePins = pins.slice().filter(function (announcment) {
+        pinsToShow = pins.slice().filter(function (announcment) {
           return announcment.offer.type === type.value;
         });
-
-        if (filteredByTypePins.length >= MAX_PINS) {
-          filteredByTypePins = filteredByTypePins.slice(0, MAX_PINS);
-        }
-
-        displayPins(filteredByTypePins);
-
       } else {
-
-        displayPins(pins.slice(0, MAX_PINS + 1));
+        pinsToShow = pins;
       }
+
+      displayPins(pinsToShow);
     };
 
     type.addEventListener('change', updateAnnouncments);
@@ -41,7 +39,6 @@
       // и передаём полученные данные (даннве уже в массиве с объектами)
       pins = data;
       updateAnnouncments();
-
     };
 
     // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
@@ -51,8 +48,15 @@
 
     // функция для отображения пинов, на основе загруженных данных
     var displayPins = function (announcments) {
+      var pinsCount;
 
-      if (addedPins.length > 0) {
+      if (announcments.length <= window.data.MAX_PINS) {
+        pinsCount = announcments.length;
+      } else {
+        pinsCount = window.data.MAX_PINS;
+      }
+
+      if (pinsCount >= 0) {
         addedPins.forEach(function (pin) {
           pin.remove();
         });
@@ -67,6 +71,7 @@
 
       // функция, которая формирует данные пина для последующей отрисовки
       var renderAnnouncement = function (announcement) {
+
         var newPin = pinTemplate.cloneNode(true);
         var pinImg = newPin.querySelector('img');
         newPin.style.left = announcement.location.x + 'px';
@@ -77,7 +82,8 @@
       };
 
       // проходим в цикле по всем объявлениям из массива announcments
-      for (var k = 0; k < announcments.length; k++) {
+
+      for (var k = 0; k <= pinsCount - 1; k++) {
         // формируем фрагмент с разметкой
         fragment.appendChild(renderAnnouncement(announcments[k]));
       }

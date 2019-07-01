@@ -8,6 +8,7 @@
   var ANNOUNCMENTS_COUNT = 8;
   var CONST_FOR_POINTER = 20;
   var PIN_SIZE = 65;
+  var MAX_PINS = 5;
   var pageIsActive = false;
 
   window.data = {
@@ -19,6 +20,7 @@
     ANNOUNCMENTS_COUNT: ANNOUNCMENTS_COUNT,
     CONST_FOR_POINTER: CONST_FOR_POINTER,
     PIN_SIZE: PIN_SIZE,
+    MAX_PINS: MAX_PINS,
     pageIsActive: pageIsActive,
   };
 
