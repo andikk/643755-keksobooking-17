@@ -1,5 +1,5 @@
 'use strict';
-
+// функция для загрузки данных с сервера
 (function () {
   window.load = function (url, onSuccess, onError) {
     var OK_STATUS = 200;

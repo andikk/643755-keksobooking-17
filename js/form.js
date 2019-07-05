@@ -2,8 +2,6 @@
 (function () {
   // НАЧАЛО БЛОКА, который в зависимости от выбранного типа жилья устанавливает
   // соответствующий плейсхолдер в поле с ценой
-
-
   var typeSelect = document.querySelector('#type');
   typeSelect.addEventListener('change', function () {
     var priceInput = document.querySelector('#price');
