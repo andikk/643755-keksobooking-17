@@ -62,11 +62,8 @@
       };
 
       // проходим в цикле по всем объявлениям из массива announcments
-      for (var k = 0; k < announcments.length; k++) {
+      for (var k = 0; k < announcments.length && k <= window.data.MAX_PINS; k++)  {
         // формируем фрагмент с разметкой
-        if (k > window.data.MAX_PINS) {
-          break;
-        }
         fragment.appendChild(renderAnnouncement(announcments[k]));
       }
       // выводим сформированный фрагмент с разметкой на карту
