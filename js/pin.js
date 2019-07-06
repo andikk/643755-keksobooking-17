@@ -29,7 +29,7 @@
     };
 
     // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
-    window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
+    window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError, 'GET', null);
 
 
     // функция для отображения пинов, на основе загруженных данных

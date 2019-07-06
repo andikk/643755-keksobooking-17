@@ -91,6 +91,24 @@
 
   roomNumber.addEventListener('change', updateCapacity);
 
+  var btnSubmit = document.querySelector('.ad-form__submit');
+  var form = document.querySelector('.ad-form');
+
+  var onSuccess = function (data) {
+    if (data) {
+      console.log('Успешно');
+    }
+  };
+
+  var onError = function () {
+    console.log('Ошибка');
+  };
+
+  form.addEventListener('submit', function(evt) {
+    evt.preventDefault();
+    window.load('https://js.dump.academy/keksobooking', onSuccess, onError, 'POST', new FormData(form));
+  })
+
   window.form = {
     updateCapacity: updateCapacity
   }
