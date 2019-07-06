@@ -59,16 +59,27 @@
         newPin.style.top = announcement.location.y + 'px';
         pinImg.src = announcement.author.avatar;
         pinImg.alt = 'Заголовок объявления';
+        console.log(announcement);
+        //newPin.setAttribute('data-index', value: DOMString)
         return newPin;
       };
 
       // проходим в цикле по всем объявлениям из массива announcments
-      for (var k = 0; k < announcments.length && k <= window.data.MAX_PINS; k++)  {
+      for (var k = 0; k < announcments.length && k < window.data.MAX_PINS; k++)  {
         // формируем фрагмент с разметкой
         fragment.appendChild(renderAnnouncement(announcments[k]));
       }
       // выводим сформированный фрагмент с разметкой на карту
       mapPins.appendChild(fragment);
+      var allPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+      for (var j = 0; j < allPins.length; j++) {
+        allPins[j].addEventListener('click', function () {
+          console.log('123');
+        })
+      }
+      //console.log(AllPins);
+
+
 
     };
 
@@ -80,7 +91,7 @@
     var mapFiltersContainer = document.querySelector('.map__filters-container');
     var cardTemplate = document.querySelector('#card').content;
     var newCard = cardTemplate.cloneNode(true);
-
+    // объявили переменные, которые ссылаются на конкретные блоки в разметке
     var popupTitle = newCard.querySelector('.popup__title');
     var popupTextAddress = newCard.querySelector('.popup__text--address');
     var popupTextPrice = newCard.querySelector('.popup__text--price');
@@ -94,6 +105,7 @@
     var popupAvatar = newCard.querySelector('.popup__avatar');
     var newPhoto = popupPhotoTemplate.cloneNode(true);
 
+    // выводим конкретные значения из объекта с данными в разметку
     popupTitle.textContent = window.data.pins[cardNumber].offer.title;
     popupTextAddress.textContent = window.data.pins[cardNumber].offer.address;
     popupTextPrice.textContent = window.data.pins[cardNumber].offer.price + ' Р/ночь';
@@ -118,22 +130,21 @@
     popupTextTime.textContent = 'Заезд после ' +  window.data.pins[cardNumber].offer.checkin + ', выезд до ' + window.data.pins[cardNumber].offer.checkout;
 
     var features = window.data.pins[cardNumber].offer.features;
-
+    // удаляем все элементы из списка, которые находятся в шаблоне
     while (popupFeatures.firstChild) {
       popupFeatures.removeChild(popupFeatures.firstChild);
     }
 
     for (var i = 0; i < features.length; i++) {
       var li = document.createElement('li');
-       console.log(features[i]);
-       li.className = 'popup__feature popup__feature--' + features[i];
-       popupFeatures.appendChild(li);
+      li.className = 'popup__feature popup__feature--' + features[i];
+      popupFeatures.appendChild(li);
     }
 
     popupDescription.textContent =  window.data.pins[cardNumber].offer.description;
 
     var photos = window.data.pins[cardNumber].offer.photos;
-
+    // удаляем фотки из блока popupPhotos перед вставкой новых
     while (popupPhotos.firstChild) {
       popupPhotos.removeChild(popupPhotos.firstChild);
     }
@@ -145,7 +156,7 @@
 
     popupAvatar.src = window.data.pins[cardNumber].author.avatar;
 
-
+    //вставляем сформированную карточку newCard в блок map перед блоком mapFiltersContainer
     map.insertBefore(newCard, mapFiltersContainer);
 
   };
