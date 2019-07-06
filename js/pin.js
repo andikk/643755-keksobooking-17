@@ -75,7 +75,7 @@
   };
 
   var displayCard = function(cardNumber) {
-    console.log(window.data.pins[cardNumber]);
+    // console.log(window.data.pins[cardNumber]);
     var map = document.querySelector('.map');
     var mapFiltersContainer = document.querySelector('.map__filters-container');
     var cardTemplate = document.querySelector('#card').content;
