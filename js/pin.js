@@ -2,6 +2,7 @@
 (function () {
   // НАЧАЛО БЛОКА для генерации меток с объявлениями и размещениями их на карте
   window.showPins = function () {
+
     // блок для фильтрации пинов по выбранному типу жилья
     var type = document.querySelector('#housing-type');
 
@@ -70,16 +71,12 @@
       // выводим сформированный фрагмент с разметкой на карту
       mapPins.appendChild(fragment);
 
+      // повесим на все пины обработчик события клик, который будет
+      // вызывать функцию, которая отображает карточку с информацией
       var allPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
       for (var p = 0; p < allPins.length; p++ ) {
-        //console.log(allPins[p]);
         allPins[p].addEventListener('click', function () {
-          // console.log(this.getAttribute('data-id'));
-          // console.log(announcments);
-          // console.log(announcments[this.getAttribute('data-id')]);
           displayCard(this.getAttribute('data-id'), announcments)
-
-
         });
       }
 
@@ -87,82 +84,6 @@
 
   };
 
-  var displayCard = function(cardNumber, cards) {
-    console.log(cards);
-    console.log(cardNumber);
-    var map = document.querySelector('.map');
-    var mapFiltersContainer = document.querySelector('.map__filters-container');
-    var cardTemplate = document.querySelector('#card').content;
-    var newCard = cardTemplate.cloneNode(true);
-
-    var popupTitle = newCard.querySelector('.popup__title');
-    var popupTextAddress = newCard.querySelector('.popup__text--address');
-    var popupTextPrice = newCard.querySelector('.popup__text--price');
-    var popupType = newCard.querySelector('.popup__type');
-    var popupTextCapacity = newCard.querySelector('.popup__text--capacity');
-    var popupTextTime = newCard.querySelector('.popup__text--time');
-    var popupFeatures = newCard.querySelector('.popup__features');
-    var popupDescription = newCard.querySelector('.popup__description');
-    var popupPhotos = newCard.querySelector('.popup__photos');
-    var popupPhotoTemplate = newCard.querySelector('.popup__photo');
-    var popupAvatar = newCard.querySelector('.popup__avatar');
-    var newPhoto = popupPhotoTemplate.cloneNode(true);
-
-    popupTitle.textContent = cards[cardNumber].offer.title;
-    popupTextAddress.textContent = cards[cardNumber].offer.address;
-    popupTextPrice.textContent = cards[cardNumber].offer.price + ' Р/ночь';
-
-    switch (cards[cardNumber].offer.type) {
-      case 'bungalo':
-        popupType.textContent = 'Бунгало';
-        break;
-      case 'flat':
-        popupType.textContent = 'Квартира';
-        break;
-      case 'house':
-        popupType.textContent = 'Дом';
-        break;
-      case 'palace':
-        popupType.textContent = 'Дворец';
-        break;
-    }
-
-    popupTextCapacity.textContent = cards[cardNumber].offer.rooms + ' комнаты для ' + cards[cardNumber].offer.guests + ' гостей';
-
-    popupTextTime.textContent = 'Заезд после ' +  cards[cardNumber].offer.checkin + ', выезд до ' + cards[cardNumber].offer.checkout;
-
-    var features = cards[cardNumber].offer.features;
-
-    while (popupFeatures.firstChild) {
-      popupFeatures.removeChild(popupFeatures.firstChild);
-    }
-
-    for (var i = 0; i < features.length; i++) {
-      var li = document.createElement('li');
-       //console.log(features[i]);
-       li.className = 'popup__feature popup__feature--' + features[i];
-       popupFeatures.appendChild(li);
-    }
-
-    popupDescription.textContent =  cards[cardNumber].offer.description;
-
-    var photos = cards[cardNumber].offer.photos;
-
-    while (popupPhotos.firstChild) {
-      popupPhotos.removeChild(popupPhotos.firstChild);
-    }
-
-    for (var k = 0; k < photos.length; k++) {
-      newPhoto.src = photos[k];
-      popupPhotos.appendChild(newPhoto);
-    }
-
-    popupAvatar.src = cards[cardNumber].author.avatar;
-
-
-    map.insertBefore(newCard, mapFiltersContainer);
-
-  };
 
 
 
