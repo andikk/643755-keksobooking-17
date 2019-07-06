@@ -12,6 +12,7 @@
   var pageIsActive = false;
   var pins = [];
 
+
   window.data = {
     LOCATION_X_NUMBER_START: LOCATION_X_NUMBER_START,
     PIN_HALF_WIDTH: PIN_HALF_WIDTH,
@@ -23,7 +24,8 @@
     PIN_SIZE: PIN_SIZE,
     MAX_PINS: MAX_PINS,
     pageIsActive: pageIsActive,
-    pins: pins
+    pins: pins,
+
   };
 
 })();
