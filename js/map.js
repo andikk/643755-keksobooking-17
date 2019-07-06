@@ -39,6 +39,7 @@
       changeAttribute(selectes, true);
       textarea.disabled = false;
       window.data.pageIsActive = true;
+      window.form.updateCapacity();
     }
 
   };
