@@ -95,14 +95,20 @@
 
 
   var form = document.querySelector('.ad-form');
+  var mainBlock = document.querySelector('main');
+  var msgTemplateSuccess = document.querySelector('#success').content.querySelector('.success');
+  var msgTemplateError = document.querySelector('#error').content.querySelector('.error');
+  var btn = msgTemplateError.querySelector('.error__button');
+  mainBlock.appendChild(msgTemplateSuccess);
+  mainBlock.appendChild(msgTemplateError);
+  msgTemplateSuccess.style = 'display: none';
+  msgTemplateError.style = 'display: none';
 
   var showSuccessWindow = function () {
-    var mainBlock = document.querySelector('main');
-    var msgTemplate = document.querySelector('#success').content.querySelector('.success');
-    mainBlock.appendChild(msgTemplate);
+    msgTemplateSuccess.style = 'display: block';
 
     var closeMessage = function () {
-      mainBlock.removeChild(msgTemplate);
+      msgTemplateSuccess.style = 'display: none';
     }
 
     var onEscPress = function (evt) {
@@ -112,18 +118,14 @@
     }
 
     document.addEventListener('keydown', onEscPress);
-    msgTemplate.addEventListener('click', closeMessage);
+    msgTemplateSuccess.addEventListener('click', closeMessage);
 
   }
 
   var showErrorWindow = function () {
-    var mainBlock = document.querySelector('main');
-    var msgTemplate = document.querySelector('#error').content.querySelector('.error');
-    var btn = msgTemplate.querySelector('.error__button');
-    mainBlock.appendChild(msgTemplate);
-
+    msgTemplateError.style = 'display: block';
     var closeMessage = function () {
-      mainBlock.removeChild(msgTemplate);
+      msgTemplateError.style = 'display: none';
     }
 
     var onEscPress = function (evt) {
@@ -133,7 +135,7 @@
     }
 
     document.addEventListener('keydown', onEscPress);
-    msgTemplate.addEventListener('click', closeMessage);
+    msgTemplateError.addEventListener('click', closeMessage);
     btn.addEventListener('click', closeMessage);
   }
 
