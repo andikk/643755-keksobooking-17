@@ -6,6 +6,7 @@
   var THREE_ROOMS = '3';
   var HUNDRED_ROOMS = '100';
   var OPTION_ZERO = '0';
+  var ESC = 27;
 
 
   // НАЧАЛО БЛОКА, который в зависимости от выбранного типа жилья устанавливает
@@ -91,17 +92,63 @@
 
   roomNumber.addEventListener('change', updateCapacity);
 
-  var btnSubmit = document.querySelector('.ad-form__submit');
+
+
   var form = document.querySelector('.ad-form');
+
+  var showSuccessWindow = function () {
+    var mainBlock = document.querySelector('main');
+    var msgTemplate = document.querySelector('#success').content.querySelector('.success');
+    mainBlock.appendChild(msgTemplate);
+
+    var closeMessage = function () {
+      mainBlock.removeChild(msgTemplate);
+    }
+
+    var onEscPress = function (evt) {
+      if (evt.keyCode === ESC) {
+        closeMessage();
+      }
+    }
+
+    document.addEventListener('keydown', onEscPress);
+    msgTemplate.addEventListener('click', closeMessage);
+
+  }
+
+  var showErrorWindow = function () {
+    var mainBlock = document.querySelector('main');
+    var msgTemplate = document.querySelector('#error').content.querySelector('.error');
+    var btn = msgTemplate.querySelector('.error__button');
+    mainBlock.appendChild(msgTemplate);
+
+    var closeMessage = function () {
+      mainBlock.removeChild(msgTemplate);
+    }
+
+    var onEscPress = function (evt) {
+      if (evt.keyCode === ESC) {
+        closeMessage();
+      }
+    }
+
+    document.addEventListener('keydown', onEscPress);
+    msgTemplate.addEventListener('click', closeMessage);
+    btn.addEventListener('click', closeMessage);
+  }
 
   var onSuccess = function (data) {
     if (data) {
-      console.log('Успешно');
+      form.reset();
+      window.pin.deletePins();
+      window.card.closePopUp();
+      window.map.pinMainToCenter();
+      showSuccessWindow();
     }
   };
 
   var onError = function () {
-    console.log('Ошибка');
+    showErrorWindow();
   };
 
   form.addEventListener('submit', function(evt) {

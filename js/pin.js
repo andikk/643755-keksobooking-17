@@ -31,9 +31,7 @@
     // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
     window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError, 'GET', null);
 
-
-    // функция для отображения пинов, на основе загруженных данных
-    var displayPins = function (announcments) {
+    var deletePins = function () {
       // очистка пинов перед добавлением
       var addedPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
@@ -42,7 +40,12 @@
           pin.remove();
         });
       }
-      // конец очистки
+    }
+
+    // функция для отображения пинов, на основе загруженных данных
+    var displayPins = function (announcments) {
+
+      deletePins();
 
       var pinTemplate = document.querySelector('#pin').content.querySelector('button');
       // карта для метки с объявленим
@@ -76,15 +79,15 @@
       var allPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
       for (var p = 0; p < allPins.length; p++ ) {
         allPins[p].addEventListener('click', function () {
-          displayCard(this.getAttribute('data-id'), announcments)
+          window.card.displayCard(this.getAttribute('data-id'), announcments);
         });
       }
 
     };
 
+    window.pin = {
+      deletePins: deletePins
+    }
   };
-
-
-
 
 })();
