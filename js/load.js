@@ -1,7 +1,7 @@
 'use strict';
 // функция для загрузки данных с сервера
 (function () {
-  window.load = function (url, onSuccess, onError) {
+  window.load = function (url, onSuccess, onError, method, data) {
     var OK_STATUS = 200;
     var TIMEOUT = 10000;
 
@@ -27,7 +27,12 @@
 
     xhr.timeout = TIMEOUT; // 10s
 
-    xhr.open('GET', url);
-    xhr.send();
+    // xhr.open('GET', url);
+    // xhr.send();
+
+    xhr.open(method, url);
+    xhr.send(data);
+
+
   };
 })();

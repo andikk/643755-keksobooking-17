@@ -50,6 +50,7 @@
 
 
   // НАЧАЛО БЛОКА кода, отвечающего за перемещения пина на карте
+
   // функция для записи координатов пина в поле с адресом
   var saveLocation = function (coordX, coordY) {
     var mapPinMain = document.querySelector('.map__pin--main');
@@ -60,6 +61,15 @@
   };
 
   var mapPinMain = document.querySelector('.map__pin--main');
+
+  var pinMainLeft = mapPinMain.style.left;
+  var pinMainRight = mapPinMain.style.right;
+
+  var pinMainToCenter = function () {
+    mapPinMain.style.left = pinMainLeft;
+    mapPinMain.style.right = pinMainRight;
+    saveLocation();
+  }
 
   mapPinMain.addEventListener('mousedown', function (evt) {
 
@@ -138,4 +148,8 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  window.map = {
+    pinMainToCenter: pinMainToCenter
+  }
 })();

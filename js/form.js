@@ -6,6 +6,7 @@
   var THREE_ROOMS = '3';
   var HUNDRED_ROOMS = '100';
   var OPTION_ZERO = '0';
+  var ESC = 27;
 
 
   // НАЧАЛО БЛОКА, который в зависимости от выбранного типа жилья устанавливает
@@ -90,6 +91,70 @@
   }
 
   roomNumber.addEventListener('change', updateCapacity);
+
+
+
+  var form = document.querySelector('.ad-form');
+
+  var showSuccessWindow = function () {
+    var mainBlock = document.querySelector('main');
+    var msgTemplate = document.querySelector('#success').content.querySelector('.success');
+    mainBlock.appendChild(msgTemplate);
+
+    var closeMessage = function () {
+      mainBlock.removeChild(msgTemplate);
+    }
+
+    var onEscPress = function (evt) {
+      if (evt.keyCode === ESC) {
+        closeMessage();
+      }
+    }
+
+    document.addEventListener('keydown', onEscPress);
+    msgTemplate.addEventListener('click', closeMessage);
+
+  }
+
+  var showErrorWindow = function () {
+    var mainBlock = document.querySelector('main');
+    var msgTemplate = document.querySelector('#error').content.querySelector('.error');
+    var btn = msgTemplate.querySelector('.error__button');
+    mainBlock.appendChild(msgTemplate);
+
+    var closeMessage = function () {
+      mainBlock.removeChild(msgTemplate);
+    }
+
+    var onEscPress = function (evt) {
+      if (evt.keyCode === ESC) {
+        closeMessage();
+      }
+    }
+
+    document.addEventListener('keydown', onEscPress);
+    msgTemplate.addEventListener('click', closeMessage);
+    btn.addEventListener('click', closeMessage);
+  }
+
+  var onSuccess = function (data) {
+    if (data) {
+      form.reset();
+      window.pin.deletePins();
+      window.card.closePopUp();
+      window.map.pinMainToCenter();
+      showSuccessWindow();
+    }
+  };
+
+  var onError = function () {
+    showErrorWindow();
+  };
+
+  form.addEventListener('submit', function(evt) {
+    evt.preventDefault();
+    window.load('https://js.dump.academy/keksobooking', onSuccess, onError, 'POST', new FormData(form));
+  })
 
   window.form = {
     updateCapacity: updateCapacity

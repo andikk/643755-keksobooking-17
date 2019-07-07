@@ -1,16 +1,17 @@
 'use strict';
 (function () {
 
-  window.displayCard = function(cardNumber, cards) {
-    var ESC = 27;
-    // проверим есть ли карточка в разметке
-    // если есть, то удалим перед добавлением
-    var closePopUp = function () {
-      var addedCard = document.querySelector('.map__card');
-      if (addedCard !== null) {
-        addedCard.parentNode.removeChild(addedCard);
-      }
+  // проверим есть ли карточка в разметке
+  // если есть, то удалим перед добавлением
+  var closePopUp = function () {
+    var addedCard = document.querySelector('.map__card');
+    if (addedCard !== null) {
+      addedCard.parentNode.removeChild(addedCard);
     }
+  }
+
+  var displayCard = function(cardNumber, cards) {
+    var ESC = 27;
 
     closePopUp();
 
@@ -94,8 +95,16 @@
 
     document.addEventListener('keydown', onPopupEscPress);
 
-   // вставляем сформированную карточку newCard в блок map перед блоком mapFiltersContainer
+    // вставляем сформированную карточку newCard в блок map перед блоком mapFiltersContainer
     map.insertBefore(newCard, mapFiltersContainer);
+
+
   };
+
+
+  window.card = {
+    displayCard: displayCard,
+    closePopUp: closePopUp
+  }
 
 })();
