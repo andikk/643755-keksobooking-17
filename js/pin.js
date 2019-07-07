@@ -7,10 +7,18 @@
     var type = document.querySelector('#housing-type');
 
     var updateAnnouncments = function () {
-      displayPins(window.filter.pinsFilteredByType());
+      displayPins(window.filter.pinsFilteredByType().filter(window.filter.roomsFilter).filter(window.filter.guestsFilter));
     };
 
     type.addEventListener('change', updateAnnouncments);
+
+    var housingRooms = document.querySelector('#housing-rooms');
+    housingRooms.addEventListener('change', updateAnnouncments);
+
+    var housingGuests = document.querySelector('#housing-guests');
+    housingGuests.addEventListener('change', updateAnnouncments);
+
+
     // конец блока фильтрации пинов по выбранному типу жилья
 
     // данная функция выполняется в случае неудачной загрузки даннхы
@@ -25,6 +33,7 @@
     // и передаём полученные данные (даннве уже в массиве с объектами)
     var onSuccess = function (data) {
       window.data.pins = data;
+      console.log(window.data.pins);
       updateAnnouncments();
     };
 
