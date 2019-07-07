@@ -3,13 +3,13 @@
   // НАЧАЛО БЛОКА для генерации меток с объявлениями и размещениями их на карте
   window.showPins = function () {
 
-    // блок для фильтрации пинов по выбранному типу жилья
-    var type = document.querySelector('#housing-type');
+    // блок для фильтрации пинов
 
     var updateAnnouncments = function () {
-      displayPins(window.filter.pinsFilteredByType().filter(window.filter.roomsFilter).filter(window.filter.guestsFilter));
+      displayPins(window.filter.pinsFilteredByType().filter(window.filter.roomsFilter).filter(window.filter.guestsFilter).filter(window.filter.priceFilter).filter(window.filter.featuresFilter));
     };
 
+    var type = document.querySelector('#housing-type');
     type.addEventListener('change', updateAnnouncments);
 
     var housingRooms = document.querySelector('#housing-rooms');
@@ -18,8 +18,17 @@
     var housingGuests = document.querySelector('#housing-guests');
     housingGuests.addEventListener('change', updateAnnouncments);
 
+    var housingPrice = document.querySelector('#housing-price');
+    housingPrice.addEventListener('change', updateAnnouncments);
 
-    // конец блока фильтрации пинов по выбранному типу жилья
+    var featuresButtons = document.querySelectorAll('input[name="features"]');
+    console.log(featuresButtons.length)
+    for (var i = 0; i < featuresButtons.length; i++) {
+      featuresButtons[i].addEventListener('change', updateAnnouncments)
+    }
+
+
+    // конец блока фильтрации пинов
 
     // данная функция выполняется в случае неудачной загрузки даннхы
     var onError = function () {
