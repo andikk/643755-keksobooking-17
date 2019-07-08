@@ -4,21 +4,13 @@
   var MIN_PRICE = 10000;
   var MAX_PRICE = 50000;
 
-  var pinsFilteredByType = function () {
-    var pinsToShow = [];
-
+  var typesFilter = function (elem) {
     var type = document.querySelector('#housing-type');
-
-    pinsToShow = window.data.pins;
-
-    if (type.value !== 'any') {
-      pinsToShow = window.data.pins.slice().filter(function (announcment) {
-        return announcment.offer.type === type.value;
-      });
+    if (type.value === 'any') {
+      return elem;
     }
-
-    return pinsToShow;
-  }
+    return elem.offer.type === type.value;
+  };
 
   var roomsFilter = function (elem) {
     var housingRooms = document.querySelector('#housing-rooms');
@@ -26,7 +18,7 @@
       return elem;
     }
     return elem.offer.rooms === Number(housingRooms.value);
-  }
+  };
 
   var guestsFilter = function (elem) {
     var housingGuests = document.querySelector('#housing-guests');
@@ -34,7 +26,7 @@
       return elem;
     }
     return elem.offer.guests === Number(housingGuests.value);
-  }
+  };
 
   var priceFilter = function (elem) {
     var housingPrice = document.querySelector('#housing-price');
@@ -42,18 +34,14 @@
     switch (housingPrice.value) {
       case 'any':
         return elem;
-        break;
       case 'middle':
-        return elem.offer.price >= MIN_PRICE && elem.offer.price < MAX_PRICE ;
-        break;
+        return elem.offer.price >= MIN_PRICE && elem.offer.price < MAX_PRICE;
       case 'low':
-        return elem.offer.price < MIN_PRICE
-        break;
+        return elem.offer.price < MIN_PRICE;
       case 'high':
-        return elem.offer.price > MIN_PRICE
-        break;
+        return elem.offer.price > MIN_PRICE;
     }
-  }
+  };
 
   var featuresFilter = function (elem) {
     var selectedFeatures = document.querySelectorAll('input[name="features"]:checked');
@@ -69,18 +57,14 @@
         return elem;
       }
     }
-
-  }
-
-
-
+  };
 
   window.filter = {
-    pinsFilteredByType: pinsFilteredByType,
+    typesFilter: typesFilter,
     roomsFilter: roomsFilter,
     guestsFilter: guestsFilter,
     priceFilter: priceFilter,
     featuresFilter: featuresFilter
-  }
+  };
 
 })();

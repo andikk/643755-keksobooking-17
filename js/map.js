@@ -30,7 +30,6 @@
       changeAttribute(inputes, false);
       changeAttribute(selectes, false);
       textarea.disabled = true;
-      //window.data.pageIsActive = false;
     } else {
       map.classList.remove('map--faded');
       adForm.classList.remove('ad-form--disabled');
@@ -38,7 +37,6 @@
       changeAttribute(inputes, true);
       changeAttribute(selectes, true);
       textarea.disabled = false;
-      //window.data.pageIsActive = true;
       window.form.updateCapacity();
     }
 
@@ -69,7 +67,7 @@
     mapPinMain.style.left = pinMainLeft;
     mapPinMain.style.right = pinMainRight;
     saveLocation();
-  }
+  };
 
   mapPinMain.addEventListener('mousedown', function (evt) {
 
@@ -151,5 +149,6 @@
 
   window.map = {
     pinMainToCenter: pinMainToCenter
-  }
+  };
+
 })();

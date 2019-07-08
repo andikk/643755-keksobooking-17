@@ -8,10 +8,9 @@
     if (addedCard !== null) {
       addedCard.parentNode.removeChild(addedCard);
     }
-  }
+  };
 
-  var displayCard = function(cardNumber, cards) {
-    var ESC = 27;
+  var displayCard = function (cardNumber, cards) {
 
     closePopUp();
 
@@ -32,7 +31,7 @@
     var popupPhotoTemplate = newCard.querySelector('.popup__photo');
     var popupAvatar = newCard.querySelector('.popup__avatar');
     var newPhoto = popupPhotoTemplate.cloneNode(true);
-    var popupClose = newCard.querySelector('.popup__close')
+    var popupClose = newCard.querySelector('.popup__close');
 
     popupTitle.textContent = cards[cardNumber].offer.title;
     popupTextAddress.textContent = cards[cardNumber].offer.address;
@@ -55,7 +54,7 @@
 
     popupTextCapacity.textContent = cards[cardNumber].offer.rooms + ' комнаты для ' + cards[cardNumber].offer.guests + ' гостей';
 
-    popupTextTime.textContent = 'Заезд после ' +  cards[cardNumber].offer.checkin + ', выезд до ' + cards[cardNumber].offer.checkout;
+    popupTextTime.textContent = 'Заезд после ' + cards[cardNumber].offer.checkin + ', выезд до ' + cards[cardNumber].offer.checkout;
 
     var features = cards[cardNumber].offer.features;
     // удалим все элементы списка popupFeatures
@@ -69,7 +68,7 @@
       popupFeatures.appendChild(li);
     }
 
-    popupDescription.textContent =  cards[cardNumber].offer.description;
+    popupDescription.textContent = cards[cardNumber].offer.description;
 
     var photos = cards[cardNumber].offer.photos;
     // удалим все узлы, которые содержаться в блоке popupPhotos
@@ -88,23 +87,21 @@
     popupClose.addEventListener('click', closePopUp);
     // обработаем событие keydown - если нажатая клавиша ESC, то тоже закроем окно
     var onPopupEscPress = function (evt) {
-      if (evt.keyCode === ESC) {
+      if (evt.keyCode === window.data.ESC) {
         closePopUp();
       }
-    }
+    };
 
     document.addEventListener('keydown', onPopupEscPress);
 
     // вставляем сформированную карточку newCard в блок map перед блоком mapFiltersContainer
     map.insertBefore(newCard, mapFiltersContainer);
-
-
   };
 
 
   window.card = {
     displayCard: displayCard,
     closePopUp: closePopUp
-  }
+  };
 
 })();
