@@ -41,7 +41,7 @@
       case 'high':
         return elem.offer.price > MIN_PRICE;
     }
-    return;
+    return false;
   };
 
   var featuresFilter = function (elem) {
@@ -58,7 +58,7 @@
         return elem;
       }
     }
-    return;
+    return false;
   };
 
   window.filter = {
