@@ -3,7 +3,7 @@
 
   // проверим есть ли карточка в разметке
   // если есть, то удалим перед добавлением
-  var closePopUp = function () {
+  var closePopup = function () {
     var addedCard = document.querySelector('.map__card');
     if (addedCard !== null) {
       addedCard.parentNode.removeChild(addedCard);
@@ -12,7 +12,7 @@
 
   var displayCard = function (cardNumber, cards) {
 
-    closePopUp();
+    closePopup();
 
     var map = document.querySelector('.map');
     var mapFiltersContainer = document.querySelector('.map__filters-container');
@@ -84,11 +84,11 @@
     popupAvatar.src = cards[cardNumber].author.avatar;
 
     // повесим событие закрытия карточки
-    popupClose.addEventListener('click', closePopUp);
+    popupClose.addEventListener('click', closePopup);
     // обработаем событие keydown - если нажатая клавиша ESC, то тоже закроем окно
     var onPopupEscPress = function (evt) {
       if (evt.keyCode === window.data.ESC) {
-        closePopUp();
+        closePopup();
       }
     };
 
@@ -101,7 +101,7 @@
 
   window.card = {
     displayCard: displayCard,
-    closePopUp: closePopUp
+    closePopup: closePopup
   };
 
 })();

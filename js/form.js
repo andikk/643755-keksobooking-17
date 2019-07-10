@@ -141,8 +141,10 @@
     if (data) {
       form.reset();
       window.pin.deletePins();
-      window.card.closePopUp();
+      window.card.closePopup();
       window.map.pinMainToCenter();
+      window.data.pageIsActive = false;
+      window.map.activatePage(window.data.pageIsActive);
       showSuccessWindow();
     }
   };
@@ -160,8 +162,10 @@
   btnReset.addEventListener('click', function () {
     form.reset();
     window.pin.deletePins();
-    window.card.closePopUp();
+    window.card.closePopup();
     window.map.pinMainToCenter();
+    window.data.pageIsActive = false;
+    window.map.activatePage(window.data.pageIsActive);
   });
 
 
