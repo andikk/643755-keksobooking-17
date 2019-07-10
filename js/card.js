@@ -3,17 +3,16 @@
 
   // проверим есть ли карточка в разметке
   // если есть, то удалим перед добавлением
-  var closePopUp = function () {
+  var closePopup = function () {
     var addedCard = document.querySelector('.map__card');
     if (addedCard !== null) {
       addedCard.parentNode.removeChild(addedCard);
     }
-  }
+  };
 
-  var displayCard = function(cardNumber, cards) {
-    var ESC = 27;
+  var displayCard = function (cardNumber, cards) {
 
-    closePopUp();
+    closePopup();
 
     var map = document.querySelector('.map');
     var mapFiltersContainer = document.querySelector('.map__filters-container');
@@ -32,7 +31,7 @@
     var popupPhotoTemplate = newCard.querySelector('.popup__photo');
     var popupAvatar = newCard.querySelector('.popup__avatar');
     var newPhoto = popupPhotoTemplate.cloneNode(true);
-    var popupClose = newCard.querySelector('.popup__close')
+    var popupClose = newCard.querySelector('.popup__close');
 
     popupTitle.textContent = cards[cardNumber].offer.title;
     popupTextAddress.textContent = cards[cardNumber].offer.address;
@@ -55,7 +54,7 @@
 
     popupTextCapacity.textContent = cards[cardNumber].offer.rooms + ' комнаты для ' + cards[cardNumber].offer.guests + ' гостей';
 
-    popupTextTime.textContent = 'Заезд после ' +  cards[cardNumber].offer.checkin + ', выезд до ' + cards[cardNumber].offer.checkout;
+    popupTextTime.textContent = 'Заезд после ' + cards[cardNumber].offer.checkin + ', выезд до ' + cards[cardNumber].offer.checkout;
 
     var features = cards[cardNumber].offer.features;
     // удалим все элементы списка popupFeatures
@@ -69,7 +68,7 @@
       popupFeatures.appendChild(li);
     }
 
-    popupDescription.textContent =  cards[cardNumber].offer.description;
+    popupDescription.textContent = cards[cardNumber].offer.description;
 
     var photos = cards[cardNumber].offer.photos;
     // удалим все узлы, которые содержаться в блоке popupPhotos
@@ -85,26 +84,24 @@
     popupAvatar.src = cards[cardNumber].author.avatar;
 
     // повесим событие закрытия карточки
-    popupClose.addEventListener('click', closePopUp);
+    popupClose.addEventListener('click', closePopup);
     // обработаем событие keydown - если нажатая клавиша ESC, то тоже закроем окно
     var onPopupEscPress = function (evt) {
-      if (evt.keyCode === ESC) {
-        closePopUp();
+      if (evt.keyCode === window.data.ESC) {
+        closePopup();
       }
-    }
+    };
 
     document.addEventListener('keydown', onPopupEscPress);
 
     // вставляем сформированную карточку newCard в блок map перед блоком mapFiltersContainer
     map.insertBefore(newCard, mapFiltersContainer);
-
-
   };
 
 
   window.card = {
     displayCard: displayCard,
-    closePopUp: closePopUp
-  }
+    closePopup: closePopup
+  };
 
 })();

@@ -2,6 +2,7 @@
 
 (function () {
   // НАЧАЛО БЛОКА для активации и деактивации страницы
+
   // функция, которая меняет аттрибут доступности для переданной в неё HTML коллекцию
   // используется для активации и деактивации страницы
   var changeAttribute = function (collection, status) {
@@ -14,6 +15,22 @@
     }
   };
 
+  // запишем в переменные поле с адресом и главный пин
+  var address = document.querySelector('#address');
+  var mapPinMain = document.querySelector('.map__pin--main');
+  // сохраним изначальные координаты пина, чтобы можно было его возвращать в центр
+  var pinMainLeft = mapPinMain.style.left;
+  var pinMainRight = mapPinMain.style.right;
+  // функция возврата пина в центр
+  var pinMainToCenter = function () {
+    mapPinMain.style.left = pinMainLeft;
+    mapPinMain.style.right = pinMainRight;
+    var coordX = mapPinMain.offsetLeft + Math.ceil(window.data.PIN_SIZE / 2);
+    var coordY = mapPinMain.offsetTop + Math.ceil(window.data.PIN_SIZE / 2);
+    address.value = coordX + ',' + coordY;
+  };
+
+
   // функция, в зависимости от переданного аттрибута деактивирут или активирует страницу
   var activatePage = function (status) {
     var map = document.querySelector('.map');
@@ -22,6 +39,8 @@
     var inputes = document.querySelectorAll('input');
     var selectes = document.querySelectorAll('select');
     var textarea = adForm.querySelector('textarea');
+    var btnSubmit = document.querySelector('.ad-form__submit');
+    var btnReset = document.querySelector('.ad-form__reset');
 
     if (status === false) {
       map.classList.add('map--faded');
@@ -30,7 +49,11 @@
       changeAttribute(inputes, false);
       changeAttribute(selectes, false);
       textarea.disabled = true;
-      window.data.pageIsActive = false;
+      btnSubmit.disabled = true;
+      btnReset.disabled = true;
+      window.form.updateCapacity();
+      pinMainToCenter();
+
     } else {
       map.classList.remove('map--faded');
       adForm.classList.remove('ad-form--disabled');
@@ -38,7 +61,8 @@
       changeAttribute(inputes, true);
       changeAttribute(selectes, true);
       textarea.disabled = false;
-      window.data.pageIsActive = true;
+      btnSubmit.disabled = false;
+      btnReset.disabled = false;
       window.form.updateCapacity();
     }
 
@@ -53,23 +77,11 @@
 
   // функция для записи координатов пина в поле с адресом
   var saveLocation = function (coordX, coordY) {
-    var mapPinMain = document.querySelector('.map__pin--main');
-    var address = document.querySelector('#address');
     coordX = mapPinMain.offsetLeft + Math.ceil(window.data.PIN_SIZE / 2);
     coordY = mapPinMain.offsetTop + window.data.PIN_SIZE + window.data.CONST_FOR_POINTER;
     address.value = coordX + ',' + coordY;
   };
 
-  var mapPinMain = document.querySelector('.map__pin--main');
-
-  var pinMainLeft = mapPinMain.style.left;
-  var pinMainRight = mapPinMain.style.right;
-
-  var pinMainToCenter = function () {
-    mapPinMain.style.left = pinMainLeft;
-    mapPinMain.style.right = pinMainRight;
-    saveLocation();
-  }
 
   mapPinMain.addEventListener('mousedown', function (evt) {
 
@@ -132,7 +144,13 @@
         if (window.data.pageIsActive === false) {
           // активируем её и показываем пины
           activatePage(true);
-          window.showPins();
+
+          if (window.data.pins.length == 0) {
+            window.pin.downloadPins();
+          }
+          // else {
+          //   window.pin.displayPins(window.data.pins);
+          // }
         }
 
         var onClickPreventDefault = function (onClickEvt) {
@@ -150,6 +168,8 @@
   });
 
   window.map = {
-    pinMainToCenter: pinMainToCenter
-  }
+    pinMainToCenter: pinMainToCenter,
+    activatePage: activatePage
+  };
+
 })();

@@ -1,35 +1,71 @@
 'use strict';
 (function () {
+
   // НАЧАЛО БЛОКА для генерации меток с объявлениями и размещениями их на карте
-  window.showPins = function () {
 
-    // блок для фильтрации пинов по выбранному типу жилья
-    var type = document.querySelector('#housing-type');
 
+
+    // блок для фильтрации пинов
     var updateAnnouncments = function () {
-      displayPins(window.filter.pinsFilteredByType());
+      window.debounce(displayPins(window.data.pins.slice().filter(window.filter.typesFilter).filter(window.filter.roomsFilter).filter(window.filter.guestsFilter).filter(window.filter.priceFilter).filter(window.filter.featuresFilter)));
     };
 
+    var type = document.querySelector('#housing-type');
     type.addEventListener('change', updateAnnouncments);
-    // конец блока фильтрации пинов по выбранному типу жилья
 
-    // данная функция выполняется в случае неудачной загрузки даннхы
-    var onError = function () {
-      // отображаем информацию об ошибке
-      var mainBlock = document.querySelector('main');
-      var errorBlock = document.querySelector('#error').content.querySelector('.error');
-      mainBlock.appendChild(errorBlock);
+    var housingRooms = document.querySelector('#housing-rooms');
+    housingRooms.addEventListener('change', updateAnnouncments);
+
+    var housingGuests = document.querySelector('#housing-guests');
+    housingGuests.addEventListener('change', updateAnnouncments);
+
+    var housingPrice = document.querySelector('#housing-price');
+    housingPrice.addEventListener('change', updateAnnouncments);
+
+    var featuresButtons = document.querySelectorAll('input[name="features"]');
+
+    for (var i = 0; i < featuresButtons.length; i++) {
+      featuresButtons[i].addEventListener('change', updateAnnouncments);
+    }
+    // конец блока фильтрации пинов
+
+    var downloadPins = function () {
+
+      // данная функция выполняется в случае неудачной загрузки даннхы
+      var onError = function () {
+        var errorBlock = document.querySelector('.error');
+        var btn = errorBlock.querySelector('.error__button');
+        errorBlock.style = 'display: block';
+
+        var closeMessage = function () {
+          errorBlock.style = 'display: none';
+        };
+
+        var onEscPress = function (evt) {
+          if (evt.keyCode === window.data.ESC) {
+            closeMessage();
+          }
+        };
+
+        document.addEventListener('keydown', onEscPress);
+        errorBlock.addEventListener('click', closeMessage);
+        btn.addEventListener('click', closeMessage);
+      };
+
+      // в случае успешной загрузки вызываем функцию отрисовки пинов
+      // и передаём полученные данные (даннве уже в массиве с объектами)
+      var onSuccess = function (data) {
+        window.data.pins = data;
+        displayPins(window.data.pins);
+      };
+
+      // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
+      // вешаем проверку, чтобы не грузить данные каждый раз при передвижении пина
+
+        window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError, 'GET', null);
+
     };
 
-    // в случае успешной загрузки вызываем функцию отрисовки пинов
-    // и передаём полученные данные (даннве уже в массиве с объектами)
-    var onSuccess = function (data) {
-      window.data.pins = data;
-      updateAnnouncments();
-    };
-
-    // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
-    window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError, 'GET', null);
 
     var deletePins = function () {
       // очистка пинов перед добавлением
@@ -40,12 +76,16 @@
           pin.remove();
         });
       }
-    }
+    };
 
     // функция для отображения пинов, на основе загруженных данных
     var displayPins = function (announcments) {
 
       deletePins();
+
+      var onPinClick = function (evt) {
+        window.card.displayCard(evt.currentTarget.getAttribute('data-id'), announcments);
+      };
 
       var pinTemplate = document.querySelector('#pin').content.querySelector('button');
       // карта для метки с объявленим
@@ -62,32 +102,26 @@
         newPin.style.top = announcement.location.y + 'px';
         pinImg.src = announcement.author.avatar;
         pinImg.alt = 'Заголовок объявления';
-        newPin.setAttribute('data-id', k)
+        newPin.setAttribute('data-id', k);
+        newPin.addEventListener('click', onPinClick);
         return newPin;
       };
 
       // проходим в цикле по всем объявлениям из массива announcments
-      for (var k = 0; k < announcments.length && k <= window.data.MAX_PINS; k++)  {
+      for (var k = 0; k < announcments.length && k < window.data.MAX_PINS; k++) {
         // формируем фрагмент с разметкой
         fragment.appendChild(renderAnnouncement(announcments[k], k));
       }
       // выводим сформированный фрагмент с разметкой на карту
       mapPins.appendChild(fragment);
 
-      // повесим на все пины обработчик события клик, который будет
-      // вызывать функцию, которая отображает карточку с информацией
-      var allPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-      for (var p = 0; p < allPins.length; p++ ) {
-        allPins[p].addEventListener('click', function () {
-          window.card.displayCard(this.getAttribute('data-id'), announcments);
-        });
-      }
-
     };
 
     window.pin = {
-      deletePins: deletePins
-    }
-  };
+      downloadPins: downloadPins,
+      deletePins: deletePins,
+      displayPins: displayPins
+    };
+
 
 })();

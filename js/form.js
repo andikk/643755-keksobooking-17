@@ -6,7 +6,6 @@
   var THREE_ROOMS = '3';
   var HUNDRED_ROOMS = '100';
   var OPTION_ZERO = '0';
-  var ESC = 27;
 
 
   // НАЧАЛО БЛОКА, который в зависимости от выбранного типа жилья устанавливает
@@ -63,7 +62,7 @@
 
 
     for (var i = 0; i <= MAX_ROOMS_NUMBERS; i++) {
-      capacity.querySelector('option[value="' + i +'"]').disabled = false;
+      capacity.querySelector('option[value="' + i + '"]').disabled = false;
     }
 
     switch (roomNumber.value) {
@@ -88,61 +87,63 @@
         option1.disabled = true;
         capacity.value = OPTION_ZERO;
     }
-  }
+  };
 
   roomNumber.addEventListener('change', updateCapacity);
 
-
-
   var form = document.querySelector('.ad-form');
 
+  var mainBlock = document.querySelector('main');
+  var msgTemplateSuccess = document.querySelector('#success').content.querySelector('.success');
+  var msgTemplateError = document.querySelector('#error').content.querySelector('.error');
+  var btn = msgTemplateError.querySelector('.error__button');
+  mainBlock.appendChild(msgTemplateSuccess);
+  mainBlock.appendChild(msgTemplateError);
+  msgTemplateSuccess.style = 'display: none';
+  msgTemplateError.style = 'display: none';
+
   var showSuccessWindow = function () {
-    var mainBlock = document.querySelector('main');
-    var msgTemplate = document.querySelector('#success').content.querySelector('.success');
-    mainBlock.appendChild(msgTemplate);
+    msgTemplateSuccess.style = 'display: block';
 
     var closeMessage = function () {
-      mainBlock.removeChild(msgTemplate);
-    }
+      msgTemplateSuccess.style = 'display: none';
+    };
 
     var onEscPress = function (evt) {
-      if (evt.keyCode === ESC) {
+      if (evt.keyCode === window.data.ESC) {
         closeMessage();
       }
-    }
+    };
 
     document.addEventListener('keydown', onEscPress);
-    msgTemplate.addEventListener('click', closeMessage);
+    msgTemplateSuccess.addEventListener('click', closeMessage);
 
-  }
+  };
 
   var showErrorWindow = function () {
-    var mainBlock = document.querySelector('main');
-    var msgTemplate = document.querySelector('#error').content.querySelector('.error');
-    var btn = msgTemplate.querySelector('.error__button');
-    mainBlock.appendChild(msgTemplate);
-
+    msgTemplateError.style = 'display: block';
     var closeMessage = function () {
-      mainBlock.removeChild(msgTemplate);
-    }
+      msgTemplateError.style = 'display: none';
+    };
 
     var onEscPress = function (evt) {
-      if (evt.keyCode === ESC) {
+      if (evt.keyCode === window.data.ESC) {
         closeMessage();
       }
-    }
+    };
 
     document.addEventListener('keydown', onEscPress);
-    msgTemplate.addEventListener('click', closeMessage);
+    msgTemplateError.addEventListener('click', closeMessage);
     btn.addEventListener('click', closeMessage);
-  }
+  };
 
   var onSuccess = function (data) {
     if (data) {
       form.reset();
       window.pin.deletePins();
-      window.card.closePopUp();
+      window.card.closePopup();
       window.map.pinMainToCenter();
+      window.map.activatePage(false);
       showSuccessWindow();
     }
   };
@@ -151,14 +152,23 @@
     showErrorWindow();
   };
 
-  form.addEventListener('submit', function(evt) {
+  form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.load('https://js.dump.academy/keksobooking', onSuccess, onError, 'POST', new FormData(form));
-  })
+  });
+
+  var btnReset = form.querySelector('.ad-form__reset');
+  btnReset.addEventListener('click', function () {
+    form.reset();
+    window.pin.deletePins();
+    window.card.closePopup();
+    window.map.pinMainToCenter();
+    window.map.activatePage(false);
+  });
+
 
   window.form = {
     updateCapacity: updateCapacity
-  }
-
+  };
 
 })();

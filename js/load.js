@@ -27,12 +27,8 @@
 
     xhr.timeout = TIMEOUT; // 10s
 
-    // xhr.open('GET', url);
-    // xhr.send();
-
     xhr.open(method, url);
     xhr.send(data);
-
 
   };
 })();

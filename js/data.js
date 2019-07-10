@@ -11,6 +11,7 @@
   var MAX_PINS = 5;
   var pageIsActive = false;
   var pins = [];
+  var ESC = 27;
 
 
   window.data = {
@@ -25,7 +26,7 @@
     MAX_PINS: MAX_PINS,
     pageIsActive: pageIsActive,
     pins: pins,
-
+    ESC: ESC
   };
 
 })();
