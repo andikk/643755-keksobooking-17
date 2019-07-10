@@ -4,12 +4,8 @@
   // НАЧАЛО БЛОКА для генерации меток с объявлениями и размещениями их на карте
   window.showPins = function () {
 
-    var showAnnouncments = function () {
-      displayPins(window.data.pins);
-    };
 
     // блок для фильтрации пинов
-
     var updateAnnouncments = function () {
       window.debounce(displayPins(window.data.pins.slice().filter(window.filter.typesFilter).filter(window.filter.roomsFilter).filter(window.filter.guestsFilter).filter(window.filter.priceFilter).filter(window.filter.featuresFilter)));
     };
@@ -36,10 +32,6 @@
 
     // данная функция выполняется в случае неудачной загрузки даннхы
     var onError = function () {
-      // отображаем информацию об ошибке
-      // var mainBlock = document.querySelector('main');
-      // var errorBlock = document.querySelector('#error').content.querySelector('.error');
-      // mainBlock.appendChild(errorBlock);
       var errorBlock = document.querySelector('.error');
       var btn = errorBlock.querySelector('.error__button');
       errorBlock.style = 'display: block';
@@ -63,11 +55,14 @@
     // и передаём полученные данные (даннве уже в массиве с объектами)
     var onSuccess = function (data) {
       window.data.pins = data;
-      showAnnouncments();
+      displayPins(window.data.pins);
     };
 
     // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
-    window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError, 'GET', null);
+    if (window.data.pins.length == 0) {
+      window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError, 'GET', null);
+    };
+
 
     var deletePins = function () {
       // очистка пинов перед добавлением
