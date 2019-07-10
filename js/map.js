@@ -148,9 +148,7 @@
           if (window.data.pins.length == 0) {
             window.pin.downloadPins();
           }
-          // else {
-          //   window.pin.displayPins(window.data.pins);
-          // }
+
         }
 
         var onClickPreventDefault = function (onClickEvt) {

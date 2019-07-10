@@ -98,8 +98,8 @@
       var renderAnnouncement = function (announcement, k) {
         var newPin = pinTemplate.cloneNode(true);
         var pinImg = newPin.querySelector('img');
-        newPin.style.left = announcement.location.x + 'px';
-        newPin.style.top = announcement.location.y + 'px';
+        newPin.style.left = (announcement.location.x - window.data.SIMILAR_PIN_SIZE / 2) + 'px';
+        newPin.style.top = (announcement.location.y - window.data.SIMILAR_PIN_SIZE) + 'px';
         pinImg.src = announcement.author.avatar;
         pinImg.alt = 'Заголовок объявления';
         newPin.setAttribute('data-id', k);
