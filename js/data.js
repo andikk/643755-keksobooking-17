@@ -8,6 +8,7 @@
   var ANNOUNCMENTS_COUNT = 8;
   var CONST_FOR_POINTER = 20;
   var PIN_SIZE = 65;
+  var SIMILAR_PIN_SIZE = 48;
   var MAX_PINS = 5;
   var pageIsActive = false;
   var pins = [];
@@ -24,6 +25,7 @@
     CONST_FOR_POINTER: CONST_FOR_POINTER,
     PIN_SIZE: PIN_SIZE,
     MAX_PINS: MAX_PINS,
+    SIMILAR_PIN_SIZE: SIMILAR_PIN_SIZE,
     pageIsActive: pageIsActive,
     pins: pins,
     ESC: ESC
