@@ -2,7 +2,7 @@
 (function () {
 
   // НАЧАЛО БЛОКА для генерации меток с объявлениями и размещениями их на карте
-  window.showPins = function () {
+
 
 
     // блок для фильтрации пинов
@@ -29,38 +29,41 @@
     }
     // конец блока фильтрации пинов
 
+    var downloadPins = function () {
 
-    // данная функция выполняется в случае неудачной загрузки даннхы
-    var onError = function () {
-      var errorBlock = document.querySelector('.error');
-      var btn = errorBlock.querySelector('.error__button');
-      errorBlock.style = 'display: block';
+      // данная функция выполняется в случае неудачной загрузки даннхы
+      var onError = function () {
+        var errorBlock = document.querySelector('.error');
+        var btn = errorBlock.querySelector('.error__button');
+        errorBlock.style = 'display: block';
 
-      var closeMessage = function () {
-        errorBlock.style = 'display: none';
+        var closeMessage = function () {
+          errorBlock.style = 'display: none';
+        };
+
+        var onEscPress = function (evt) {
+          if (evt.keyCode === window.data.ESC) {
+            closeMessage();
+          }
+        };
+
+        document.addEventListener('keydown', onEscPress);
+        errorBlock.addEventListener('click', closeMessage);
+        btn.addEventListener('click', closeMessage);
       };
 
-      var onEscPress = function (evt) {
-        if (evt.keyCode === window.data.ESC) {
-          closeMessage();
-        }
+      // в случае успешной загрузки вызываем функцию отрисовки пинов
+      // и передаём полученные данные (даннве уже в массиве с объектами)
+      var onSuccess = function (data) {
+        window.data.pins = data;
+        displayPins(window.data.pins);
       };
 
-      document.addEventListener('keydown', onEscPress);
-      errorBlock.addEventListener('click', closeMessage);
-      btn.addEventListener('click', closeMessage);
-    };
+      // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
+      // вешаем проверку, чтобы не грузить данные каждый раз при передвижении пина
 
-    // в случае успешной загрузки вызываем функцию отрисовки пинов
-    // и передаём полученные данные (даннве уже в массиве с объектами)
-    var onSuccess = function (data) {
-      window.data.pins = data;
-      displayPins(window.data.pins);
-    };
+        window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError, 'GET', null);
 
-    // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
-    if (window.data.pins.length == 0) {
-      window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError, 'GET', null);
     };
 
 
@@ -105,7 +108,7 @@
       };
 
       // проходим в цикле по всем объявлениям из массива announcments
-      for (var k = 0; k < announcments.length && k <= window.data.MAX_PINS; k++) {
+      for (var k = 0; k < announcments.length && k < window.data.MAX_PINS; k++) {
         // формируем фрагмент с разметкой
         fragment.appendChild(renderAnnouncement(announcments[k], k));
       }
@@ -115,8 +118,10 @@
     };
 
     window.pin = {
-      deletePins: deletePins
+      downloadPins: downloadPins,
+      deletePins: deletePins,
+      displayPins: displayPins
     };
-  };
+
 
 })();

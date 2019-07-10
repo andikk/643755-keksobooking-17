@@ -144,7 +144,13 @@
         if (window.data.pageIsActive === false) {
           // активируем её и показываем пины
           activatePage(true);
-          window.showPins();
+
+          if (window.data.pins.length == 0) {
+            window.pin.downloadPins();
+          }
+          // else {
+          //   window.pin.displayPins(window.data.pins);
+          // }
         }
 
         var onClickPreventDefault = function (onClickEvt) {
