@@ -5,7 +5,12 @@
     // блок для фильтрации пинов
     var updateAnnouncments = function () {
       window.card.closePopup();
-      window.debounce(displayPins(window.data.pins.slice().filter(window.filter.typesFilter).filter(window.filter.roomsFilter).filter(window.filter.guestsFilter).filter(window.filter.priceFilter).filter(window.filter.featuresFilter)));
+
+      //window.debounce(displayPins(window.data.pins.slice().filter(window.filter.typesFilter).filter(window.filter.roomsFilter).filter(window.filter.guestsFilter).filter(window.filter.priceFilter).filter(window.filter.featuresFilter)));
+      window.debounce(function () {
+         console.log(123);
+         //displayPins(window.data.pins.slice().filter(window.filter.typesFilter).filter(window.filter.roomsFilter).filter(window.filter.guestsFilter).filter(window.filter.priceFilter).filter(window.filter.featuresFilter));
+       });
     };
 
     var type = document.querySelector('#housing-type');
