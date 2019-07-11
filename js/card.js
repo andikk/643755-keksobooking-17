@@ -30,7 +30,7 @@
     var popupPhotos = newCard.querySelector('.popup__photos');
     var popupPhotoTemplate = newCard.querySelector('.popup__photo');
     var popupAvatar = newCard.querySelector('.popup__avatar');
-    var newPhoto = popupPhotoTemplate.cloneNode(true);
+
     var popupClose = newCard.querySelector('.popup__close');
 
     popupTitle.textContent = cards[cardNumber].offer.title;
@@ -77,6 +77,7 @@
     }
 
     for (var k = 0; k < photos.length; k++) {
+      var newPhoto = popupPhotoTemplate.cloneNode(true);
       newPhoto.src = photos[k];
       popupPhotos.appendChild(newPhoto);
     }
