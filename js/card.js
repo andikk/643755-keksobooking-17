@@ -35,7 +35,7 @@
 
     popupTitle.textContent = cards[cardNumber].offer.title;
     popupTextAddress.textContent = cards[cardNumber].offer.address;
-    popupTextPrice.textContent = cards[cardNumber].offer.price + ' Р/ночь';
+    popupTextPrice.innerHTML = cards[cardNumber].offer.price + ' &#x20bd;<span>/ночь</span>';
 
     switch (cards[cardNumber].offer.type) {
       case 'bungalo':
