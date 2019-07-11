@@ -58,8 +58,6 @@
       };
 
       // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
-      // вешаем проверку, чтобы не грузить данные каждый раз при передвижении пина
-
       window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError, 'GET', null);
     };
 
@@ -91,7 +89,7 @@
       var onPinClick = function (evt) {
         deleteActivePinClass();
         evt.currentTarget.classList.add("map__pin--active");
-        window.card.displayCard(evt.currentTarget.getAttribute('data-id'), announcments);
+        window.card.displayCard(announcments[evt.currentTarget.getAttribute('data-id')]);
       };
 
       var pinTemplate = document.querySelector('#pin').content.querySelector('button');

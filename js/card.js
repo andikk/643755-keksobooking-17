@@ -10,7 +10,7 @@
     }
   };
 
-  var displayCard = function (cardNumber, cards) {
+  var displayCard = function (card) {
 
     closePopup();
 
@@ -33,11 +33,11 @@
 
     var popupClose = newCard.querySelector('.popup__close');
 
-    popupTitle.textContent = cards[cardNumber].offer.title;
-    popupTextAddress.textContent = cards[cardNumber].offer.address;
-    popupTextPrice.innerHTML = cards[cardNumber].offer.price + ' &#x20bd;<span>/ночь</span>';
+    popupTitle.textContent = card.offer.title;
+    popupTextAddress.textContent = card.offer.address;
+    popupTextPrice.innerHTML = card.offer.price + ' &#x20bd;<span>/ночь</span>';
 
-    switch (cards[cardNumber].offer.type) {
+    switch (card.offer.type) {
       case 'bungalo':
         popupType.textContent = 'Бунгало';
         break;
@@ -52,11 +52,11 @@
         break;
     }
 
-    popupTextCapacity.textContent = cards[cardNumber].offer.rooms + ' комнаты для ' + cards[cardNumber].offer.guests + ' гостей';
+    popupTextCapacity.textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
 
-    popupTextTime.textContent = 'Заезд после ' + cards[cardNumber].offer.checkin + ', выезд до ' + cards[cardNumber].offer.checkout;
+    popupTextTime.textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
 
-    var features = cards[cardNumber].offer.features;
+    var features = card.offer.features;
     // удалим все элементы списка popupFeatures
     while (popupFeatures.firstChild) {
       popupFeatures.removeChild(popupFeatures.firstChild);
@@ -68,9 +68,9 @@
       popupFeatures.appendChild(li);
     }
 
-    popupDescription.textContent = cards[cardNumber].offer.description;
+    popupDescription.textContent = card.offer.description;
 
-    var photos = cards[cardNumber].offer.photos;
+    var photos = card.offer.photos;
     // удалим все узлы, которые содержаться в блоке popupPhotos
     while (popupPhotos.firstChild) {
       popupPhotos.removeChild(popupPhotos.firstChild);
@@ -82,7 +82,7 @@
       popupPhotos.appendChild(newPhoto);
     }
 
-    popupAvatar.src = cards[cardNumber].author.avatar;
+    popupAvatar.src = card.author.avatar;
 
     // повесим событие закрытия карточки
     popupClose.addEventListener('click', closePopup);
