@@ -2,9 +2,6 @@
 (function () {
 
   // НАЧАЛО БЛОКА для генерации меток с объявлениями и размещениями их на карте
-
-
-
     // блок для фильтрации пинов
     var updateAnnouncments = function () {
       window.debounce(displayPins(window.data.pins.slice().filter(window.filter.typesFilter).filter(window.filter.roomsFilter).filter(window.filter.guestsFilter).filter(window.filter.priceFilter).filter(window.filter.featuresFilter)));
@@ -61,8 +58,7 @@
 
       // загружаем данные с пинами и выполняем опред.функции в случа удачной загрузки или нет
       // вешаем проверку, чтобы не грузить данные каждый раз при передвижении пина
-
-        window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError, 'GET', null);
+      window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError, 'GET', null);
 
     };
 
@@ -70,10 +66,18 @@
     var deletePins = function () {
       // очистка пинов перед добавлением
       var addedPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-
       if (addedPins.length >= 0) {
         addedPins.forEach(function (pin) {
           pin.remove();
+        });
+      }
+    };
+
+    var deleteActivePinClass = function () {
+      var addedPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+      if (addedPins.length >= 0) {
+        addedPins.forEach(function (pin) {
+          pin.classList.remove('map__pin--active');
         });
       }
     };
@@ -84,6 +88,8 @@
       deletePins();
 
       var onPinClick = function (evt) {
+        deleteActivePinClass();
+        evt.currentTarget.classList.add("map__pin--active");
         window.card.displayCard(evt.currentTarget.getAttribute('data-id'), announcments);
       };
 
