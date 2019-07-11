@@ -43,6 +43,16 @@
     var btnSubmit = document.querySelector('.ad-form__submit');
     var btnReset = document.querySelector('.ad-form__reset');
 
+    map.classList.remove('map--faded');
+    adForm.classList.remove('ad-form--disabled');
+    mapFilter.classList.remove('map__filter--disabled');
+    changeAttribute(inputes, true);
+    changeAttribute(selectes, true);
+    textarea.disabled = false;
+    btnSubmit.disabled = false;
+    btnReset.disabled = false;
+    window.form.updateCapacity();
+
     if (status === false) {
       map.classList.add('map--faded');
       adForm.classList.add('ad-form--disabled');
@@ -54,17 +64,6 @@
       btnReset.disabled = true;
       window.form.updateCapacity();
       pinMainToCenter();
-
-    } else {
-      map.classList.remove('map--faded');
-      adForm.classList.remove('ad-form--disabled');
-      mapFilter.classList.remove('map__filter--disabled');
-      changeAttribute(inputes, true);
-      changeAttribute(selectes, true);
-      textarea.disabled = false;
-      btnSubmit.disabled = false;
-      btnReset.disabled = false;
-      window.form.updateCapacity();
     }
 
   };
@@ -154,9 +153,12 @@
         if (window.data.pageIsActive === false) {
           // активируем её и показываем пины
           activatePage(true);
-
+          // если массив с пинам пустой, то нужно загрузить данные с сервера
+          // иначе отображаем ранее загруженные данные
           if (window.data.pins.length == 0) {
             window.pin.downloadPins();
+          } else {
+            window.pin.displayPins(window.data.pins);
           }
 
         }
