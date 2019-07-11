@@ -47,17 +47,25 @@
   var featuresFilter = function (elem) {
     var selectedFeatures = document.querySelectorAll('input[name="features"]:checked');
     var features = Array.from(selectedFeatures);
+
     var selectedFeaturesValues = features.map(function (it) {
       return it.value;
     });
 
+    if (selectedFeaturesValues.length == 0) {
+      return elem;
+    };
+
     var featuresInElem = elem.offer.features;
 
     for (var i = 0; i < selectedFeaturesValues.length; i++) {
+
       if (featuresInElem.includes(selectedFeaturesValues[i])) {
         return elem;
       }
     }
+
+
     return false;
   };
 

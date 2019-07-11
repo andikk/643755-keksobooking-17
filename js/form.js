@@ -6,33 +6,36 @@
   var THREE_ROOMS = '3';
   var HUNDRED_ROOMS = '100';
   var OPTION_ZERO = '0';
-  var PRICE_BUNGALO = '0';
-  var PRICE_FLAT = '1000';
-  var PRICE_HOUSE = '5000';
-  var PRICE_PALACE = '10000';
+
+  var PRICE = {
+    bungalo: '0',
+    flat: '1000',
+    house: '5000',
+    palace: '10000'
+  };
 
   // НАЧАЛО БЛОКА, который в зависимости от выбранного типа жилья устанавливает
-  // соответствующий плейсхолдер в поле с ценой
+  // соответствующий плейсхолдер и мин цену в поле с ценой
   var typeSelect = document.querySelector('#type');
   typeSelect.addEventListener('change', function () {
     var priceInput = document.querySelector('#price');
 
     switch (typeSelect.value) {
       case 'bungalo':
-        priceInput.placeholder = PRICE_BUNGALO;
-        priceInput.min = PRICE_BUNGALO;
+        priceInput.placeholder = PRICE.bungalo;
+        priceInput.min = PRICE.bungalo;
         break;
       case 'flat':
-        priceInput.placeholder = PRICE_FLAT;
-        priceInput.min = PRICE_FLAT;
+        priceInput.placeholder = PRICE.flat;
+        priceInput.min = PRICE.flat;
         break;
       case 'house':
-        priceInput.placeholder = PRICE_HOUSE;
-        priceInput.min = PRICE_HOUSE;
+        priceInput.placeholder = PRICE.house;
+        priceInput.min = PRICE.house;
         break;
       case 'palace':
-        priceInput.placeholder = PRICE_PALACE;
-        priceInput.min = PRICE_PALACE;
+        priceInput.placeholder = PRICE.palace;
+        priceInput.min = PRICE.palace;
         break;
     }
   });

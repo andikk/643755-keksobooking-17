@@ -1,6 +1,13 @@
 'use strict';
 (function () {
 
+  var TYPE = {
+    bungalo: 'Бунгало',
+    flat: 'Квартира',
+    house: 'Дом',
+    palace: 'Дворец'
+  }
+
   // проверим есть ли карточка в разметке
   // если есть, то удалим перед добавлением
   var closePopup = function () {
@@ -39,16 +46,16 @@
 
     switch (card.offer.type) {
       case 'bungalo':
-        popupType.textContent = 'Бунгало';
+        popupType.textContent = TYPE.bungalo;
         break;
       case 'flat':
-        popupType.textContent = 'Квартира';
+        popupType.textContent = TYPE.flat;
         break;
       case 'house':
-        popupType.textContent = 'Дом';
+        popupType.textContent = TYPE.house;
         break;
       case 'palace':
-        popupType.textContent = 'Дворец';
+        popupType.textContent = TYPE.palace;
         break;
     }
 
