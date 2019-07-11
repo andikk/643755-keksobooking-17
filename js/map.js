@@ -31,6 +31,7 @@
   };
 
 
+
   // функция, в зависимости от переданного аттрибута деактивирут или активирует страницу
   var activatePage = function (status) {
     var map = document.querySelector('.map');
@@ -71,6 +72,15 @@
   // при загрузке деактивируем страницу
   activatePage(window.data.pageIsActive);
   // КОНЕЦ БЛОКА
+
+  mapPinMain.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === window.data.ENTER) {
+      activatePage(true);
+      if (window.data.pins.length == 0) {
+        window.pin.downloadPins();
+      }
+    }
+  });
 
 
   // НАЧАЛО БЛОКА кода, отвечающего за перемещения пина на карте

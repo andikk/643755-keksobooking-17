@@ -13,6 +13,7 @@
   var pageIsActive = false;
   var pins = [];
   var ESC = 27;
+  var ENTER = 13;
 
 
   window.data = {
@@ -28,7 +29,8 @@
     SIMILAR_PIN_SIZE: SIMILAR_PIN_SIZE,
     pageIsActive: pageIsActive,
     pins: pins,
-    ESC: ESC
+    ESC: ESC,
+    ENTER: ENTER
   };
 
 })();
