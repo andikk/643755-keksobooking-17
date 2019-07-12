@@ -153,6 +153,7 @@
       window.pin.deletePins();
       window.card.closePopup();
       window.map.pinMainToCenter();
+      window.data.pageIsActive = false;
       window.map.activatePage(false);
       showSuccessWindow();
     }
@@ -173,6 +174,7 @@
     window.pin.deletePins();
     window.card.closePopup();
     window.map.pinMainToCenter();
+    window.data.pageIsActive = false;
     window.map.activatePage(false);
   });
 

@@ -6,13 +6,14 @@
   // функция, которая меняет аттрибут доступности для переданной в неё HTML коллекцию
   // используется для активации и деактивации страницы
   var changeAttribute = function (collection, status) {
-    for (var i = 0; i < collection.length; i++) {
-      if (status === false) {
-        collection[i].disabled = true;
-      } else {
-        collection[i].disabled = false;
+    collection.forEach(function (elem) {
+      elem.setAttribute('disabled', true);
+      if (status === true) {
+        elem.removeAttribute('disabled');
       }
-    }
+
+    });
+
   };
 
   // запишем в переменные поле с адресом и главный пин
@@ -43,29 +44,38 @@
     var btnSubmit = document.querySelector('.ad-form__submit');
     var btnReset = document.querySelector('.ad-form__reset');
 
-    map.classList.remove('map--faded');
-    adForm.classList.remove('ad-form--disabled');
-    mapFilter.classList.remove('map__filter--disabled');
-    changeAttribute(inputes, true);
-    changeAttribute(selectes, true);
-    textarea.disabled = false;
-    btnSubmit.disabled = false;
-    btnReset.disabled = false;
+    // map.classList.remove('map--faded');
+    // adForm.classList.remove('ad-form--disabled');
+    // mapFilter.classList.remove('map__filter--disabled');
+    // changeAttribute(inputes, true);
+    // changeAttribute(selectes, true);
+    // textarea.disabled = false;
+    // btnSubmit.disabled = false;
+    // btnReset.disabled = false;
+    // window.form.updateCapacity();
+
+    // if (status === false) {
+    //   map.classList.add('map--faded');
+    //   adForm.classList.add('ad-form--disabled');
+    //   mapFilter.classList.add('map__filter--disabled');
+    //   changeAttribute(inputes, false);
+    //   changeAttribute(selectes, false);
+    //   textarea.disabled = true;
+    //   btnSubmit.disabled = true;
+    //   btnReset.disabled = true;
+    //   window.form.updateCapacity();
+    //   pinMainToCenter();
+    // }
+
+    map.classList.toggle('map--faded');
+    adForm.classList.toggle('ad-form--disabled');
+    mapFilter.classList.toggle('map__filter--disabled');
+    changeAttribute(inputes, status);
+    changeAttribute(selectes, status);
+    textarea.disabled = !status;
+    btnSubmit.disabled = !status;
+    btnReset.disabled = !status;
     window.form.updateCapacity();
-
-    if (status === false) {
-      map.classList.add('map--faded');
-      adForm.classList.add('ad-form--disabled');
-      mapFilter.classList.add('map__filter--disabled');
-      changeAttribute(inputes, false);
-      changeAttribute(selectes, false);
-      textarea.disabled = true;
-      btnSubmit.disabled = true;
-      btnReset.disabled = true;
-      window.form.updateCapacity();
-      pinMainToCenter();
-    }
-
   };
 
   // при загрузке деактивируем страницу
@@ -153,14 +163,13 @@
         if (window.data.pageIsActive === false) {
           // активируем её и показываем пины
           activatePage(true);
+          window.data.pageIsActive = true;
           // если массив с пинам пустой, то нужно загрузить данные с сервера
           // иначе отображаем ранее загруженные данные
           if (window.data.pins.length == 0) {
             window.pin.downloadPins();
-          } else {
-            window.pin.displayPins(window.data.pins);
           }
-
+          window.pin.displayPins(window.data.pins);
         }
 
         var onClickPreventDefault = function (onClickEvt) {

@@ -6,11 +6,7 @@
     var updateAnnouncments = function () {
       window.card.closePopup();
       window.useDebounce(function () {
-        //displayPins(window.data.pins.slice().filter(window.filter.typesFilter).filter(window.filter.roomsFilter).filter(window.filter.guestsFilter).filter(window.filter.priceFilter).filter(window.filter.featuresFilter));
-
-        console.log(window.data.pins.slice().filter(window.filter.filterIt));
-
-        //displayPins();
+        displayPins(window.data.pins.slice().filter(window.filter.filterIt));
       });
     };
 
@@ -28,9 +24,14 @@
 
     var featuresButtons = document.querySelectorAll('input[name="features"]');
 
-    for (var i = 0; i < featuresButtons.length; i++) {
-      featuresButtons[i].addEventListener('change', updateAnnouncments);
-    }
+    // for (var i = 0; i < featuresButtons.length; i++) {
+    //   featuresButtons[i].addEventListener('change', updateAnnouncments);
+    // }
+
+    featuresButtons.forEach(function (featuresBtn) {
+      featuresBtn.addEventListener('change', updateAnnouncments);
+    });
+
     // конец блока фильтрации пинов
 
     var downloadPins = function () {
@@ -95,7 +96,7 @@
       var onPinClick = function (evt) {
         deleteActivePinClass();
         evt.currentTarget.classList.add("map__pin--active");
-        window.card.displayCard(announcments[evt.currentTarget.getAttribute('data-id')]);
+        window.card.display(announcments[evt.currentTarget.getAttribute('data-id')]);
       };
 
       var pinTemplate = document.querySelector('#pin').content.querySelector('button');

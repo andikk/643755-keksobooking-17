@@ -17,7 +17,7 @@
     }
   };
 
-  var displayCard = function (card) {
+  var display = function (card) {
 
     closePopup();
 
@@ -69,11 +69,17 @@
       popupFeatures.removeChild(popupFeatures.firstChild);
     }
 
-    for (var i = 0; i < features.length; i++) {
+    // for (var i = 0; i < features.length; i++) {
+    //   var li = document.createElement('li');
+    //   li.className = 'popup__feature popup__feature--' + features[i];
+    //   popupFeatures.appendChild(li);
+    // }
+    // покажем все фичи
+    features.forEach(function (feature) {
       var li = document.createElement('li');
-      li.className = 'popup__feature popup__feature--' + features[i];
+      li.className = 'popup__feature popup__feature--' + feature;
       popupFeatures.appendChild(li);
-    }
+    });
 
     popupDescription.textContent = card.offer.description;
 
@@ -83,11 +89,18 @@
       popupPhotos.removeChild(popupPhotos.firstChild);
     }
 
-    for (var k = 0; k < photos.length; k++) {
+    // for (var k = 0; k < photos.length; k++) {
+    //   var newPhoto = popupPhotoTemplate.cloneNode(true);
+    //   newPhoto.src = photos[k];
+    //   popupPhotos.appendChild(newPhoto);
+    // }
+
+    photos.forEach(function (photo) {
       var newPhoto = popupPhotoTemplate.cloneNode(true);
-      newPhoto.src = photos[k];
+      newPhoto.src = photo;
       popupPhotos.appendChild(newPhoto);
-    }
+    });
+
 
     popupAvatar.src = card.author.avatar;
 
@@ -108,7 +121,7 @@
 
 
   window.card = {
-    displayCard: displayCard,
+    display: display,
     closePopup: closePopup
   };
 

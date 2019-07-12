@@ -70,9 +70,8 @@
 
   var filterIt = function (elem) {
 
-    if (roomsFilter(elem) && typesFilter(elem)) {
+    if (roomsFilter(elem) && typesFilter(elem) && guestsFilter(elem) && priceFilter(elem) && featuresFilter(elem)) {
       return elem;
-
     }
 
     return false;
@@ -80,11 +79,6 @@
   };
 
   window.filter = {
-    typesFilter: typesFilter,
-    roomsFilter: roomsFilter,
-    guestsFilter: guestsFilter,
-    priceFilter: priceFilter,
-    featuresFilter: featuresFilter,
     filterIt: filterIt
   };
 
