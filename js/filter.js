@@ -65,8 +65,18 @@
       }
     }
 
+    return false;
+  };
+
+  var filterIt = function (elem) {
+
+    if (roomsFilter(elem) && typesFilter(elem)) {
+      return elem;
+
+    }
 
     return false;
+
   };
 
   window.filter = {
@@ -74,7 +84,8 @@
     roomsFilter: roomsFilter,
     guestsFilter: guestsFilter,
     priceFilter: priceFilter,
-    featuresFilter: featuresFilter
+    featuresFilter: featuresFilter,
+    filterIt: filterIt
   };
 
 })();

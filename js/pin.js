@@ -6,7 +6,11 @@
     var updateAnnouncments = function () {
       window.card.closePopup();
       window.useDebounce(function () {
-        displayPins(window.data.pins.slice().filter(window.filter.typesFilter).filter(window.filter.roomsFilter).filter(window.filter.guestsFilter).filter(window.filter.priceFilter).filter(window.filter.featuresFilter));
+        //displayPins(window.data.pins.slice().filter(window.filter.typesFilter).filter(window.filter.roomsFilter).filter(window.filter.guestsFilter).filter(window.filter.priceFilter).filter(window.filter.featuresFilter));
+
+        console.log(window.data.pins.slice().filter(window.filter.filterIt));
+
+        //displayPins();
       });
     };
 
