@@ -1249,6 +1249,13 @@ fieldset {
   opacity: 0.6;
 }
 
+#price:invalid {
+  border: 2px solid red;
+}
+
+#price:valid {
+  border: none;
+}
 
 
 

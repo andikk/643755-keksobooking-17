@@ -31,8 +31,6 @@
     address.value = coordX + ',' + coordY;
   };
 
-
-
   // функция, в зависимости от переданного аттрибута деактивирут или активирует страницу
   var activatePage = function (status) {
     var map = document.querySelector('.map');
@@ -43,29 +41,6 @@
     var textarea = adForm.querySelector('textarea');
     var btnSubmit = document.querySelector('.ad-form__submit');
     var btnReset = document.querySelector('.ad-form__reset');
-
-    // map.classList.remove('map--faded');
-    // adForm.classList.remove('ad-form--disabled');
-    // mapFilter.classList.remove('map__filter--disabled');
-    // changeAttribute(inputes, true);
-    // changeAttribute(selectes, true);
-    // textarea.disabled = false;
-    // btnSubmit.disabled = false;
-    // btnReset.disabled = false;
-    // window.form.updateCapacity();
-
-    // if (status === false) {
-    //   map.classList.add('map--faded');
-    //   adForm.classList.add('ad-form--disabled');
-    //   mapFilter.classList.add('map__filter--disabled');
-    //   changeAttribute(inputes, false);
-    //   changeAttribute(selectes, false);
-    //   textarea.disabled = true;
-    //   btnSubmit.disabled = true;
-    //   btnReset.disabled = true;
-    //   window.form.updateCapacity();
-    //   pinMainToCenter();
-    // }
 
     map.classList.toggle('map--faded');
     adForm.classList.toggle('ad-form--disabled');
@@ -85,7 +60,7 @@
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.data.ENTER) {
       activatePage(true);
-      if (window.data.pins.length == 0) {
+      if (window.data.pins.length === 0) {
         window.pin.downloadPins();
       }
     }
@@ -166,7 +141,7 @@
           window.data.pageIsActive = true;
           // если массив с пинам пустой, то нужно загрузить данные с сервера
           // иначе отображаем ранее загруженные данные
-          if (window.data.pins.length == 0) {
+          if (window.data.pins.length === 0) {
             window.pin.downloadPins();
           }
           window.pin.displayPins(window.data.pins);

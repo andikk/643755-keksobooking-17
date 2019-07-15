@@ -52,9 +52,9 @@
       return it.value;
     });
 
-    if (selectedFeaturesValues.length == 0) {
+    if (selectedFeaturesValues.length === 0) {
       return elem;
-    };
+    }
 
     var featuresInElem = elem.offer.features;
 

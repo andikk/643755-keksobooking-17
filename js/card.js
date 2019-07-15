@@ -6,7 +6,7 @@
     flat: 'Квартира',
     house: 'Дом',
     palace: 'Дворец'
-  }
+  };
 
   // проверим есть ли карточка в разметке
   // если есть, то удалим перед добавлением
@@ -69,11 +69,6 @@
       popupFeatures.removeChild(popupFeatures.firstChild);
     }
 
-    // for (var i = 0; i < features.length; i++) {
-    //   var li = document.createElement('li');
-    //   li.className = 'popup__feature popup__feature--' + features[i];
-    //   popupFeatures.appendChild(li);
-    // }
     // покажем все фичи
     features.forEach(function (feature) {
       var li = document.createElement('li');
@@ -89,18 +84,12 @@
       popupPhotos.removeChild(popupPhotos.firstChild);
     }
 
-    // for (var k = 0; k < photos.length; k++) {
-    //   var newPhoto = popupPhotoTemplate.cloneNode(true);
-    //   newPhoto.src = photos[k];
-    //   popupPhotos.appendChild(newPhoto);
-    // }
 
     photos.forEach(function (photo) {
       var newPhoto = popupPhotoTemplate.cloneNode(true);
       newPhoto.src = photo;
       popupPhotos.appendChild(newPhoto);
     });
-
 
     popupAvatar.src = card.author.avatar;
 
